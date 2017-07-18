@@ -53,7 +53,7 @@ public class PointDTO {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(this);
     }
-
+    /** Представление объекта в виде строки */
     @Override
     public String toString() {
              return "PointDTO{" +
@@ -63,6 +63,8 @@ public class PointDTO {
                     ", time=" + time + '}';
         }
 
+    /** Преобразование JSON-строки в объект PointDTO.
+     * Используем ObjectMapper из библиотеки com.fasterxml... */
     public PointDTO fromJson(String content) throws IOException {
               ObjectMapper mapper = new ObjectMapper();
                  try {
