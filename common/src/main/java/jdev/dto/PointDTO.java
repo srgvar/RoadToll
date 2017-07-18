@@ -49,9 +49,14 @@ public class PointDTO {
     }
 
     /** Преобразование в строку JSON используя ObjectMapper */
-    public String toJson() throws JsonProcessingException {
+    public String toJson()  {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(this);
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     /** Представление объекта в виде строки */
     @Override

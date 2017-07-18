@@ -1,8 +1,9 @@
 package jdev.server;
 
 /**
- * Created by srgva on 17.07.2017.
+ * Created by srgva on 18.07.2017.
  */
+
 public class Main {
     public static void main(String... args){
         System.out.println("Server core started...");
