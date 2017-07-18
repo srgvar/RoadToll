@@ -6,7 +6,6 @@ package jdev.server;
 
 import jdev.dto.PointDTO;
 import org.junit.Test;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 public class ServerTest{

@@ -1,4 +1,5 @@
 package jdev.tracker;
+
 import jdev.dto.PointDTO;
 import org.junit.Test;
 
