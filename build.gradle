@@ -53,7 +53,7 @@ project(':tracker-core'){
 
 
 project(':tracker-ui') {
-        dependencies {
+    dependencies {
             compile project(':common')
         }
 }

@@ -6,7 +6,7 @@ import jdev.dto.PointDTO;
  * Created by srgva on 17.07.2017.
  */
 public class Main {
-    static long delayTime=1000L;
+    static long delayTime = 1000L;
     public void setDelayTime(long delayTime){
         this.delayTime = delayTime;
     }
