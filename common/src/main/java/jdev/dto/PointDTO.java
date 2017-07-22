@@ -12,6 +12,8 @@ public class PointDTO {
         /** Текущие координаты:        */
         private double lat; // широта
         private double lon; // долгота
+        private double bearing; // азимут
+        private double speed; //мгновенная скорость
 
         private String autoId; // регистрационный номер автомобиля
         private long time; // текущее время
@@ -48,6 +50,22 @@ public class PointDTO {
         this.time = time;
     }
 
+    public double getBearing() {
+        return bearing;
+    }
+
+    public void setBearing(double bearing) {
+        this.bearing = bearing;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     /** Преобразование в строку JSON используя ObjectMapper */
     public String toJson()  {
         ObjectMapper mapper = new ObjectMapper();
@@ -64,6 +82,8 @@ public class PointDTO {
              return "PointDTO{" +
                     "lat=" + lat +
                     ", lon=" + lon +
+                    ", bearing=" + bearing +
+                    ", speed=" + speed +
                     ", autoId='" + autoId + '\'' +
                     ", time=" + time + '}';
         }
