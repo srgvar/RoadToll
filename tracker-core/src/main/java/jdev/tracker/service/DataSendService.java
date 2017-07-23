@@ -3,5 +3,6 @@ package jdev.tracker.service;
 /**
  * Created by srgva on 23.07.2017.
  */
-public class DataSendService { // 111
+public class DataSendService {
+    // Commit after recovering detached HEAD
 }
