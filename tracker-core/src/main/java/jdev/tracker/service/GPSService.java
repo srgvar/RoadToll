@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GPSService {
-    public void getCoordinates(String fileName) {
+    public List<Coordinate> getCoordinates(String fileName) {
         File f = new File(fileName);
         System.out.println(f);
+        List <Coordinate> coordinates;
 
         final Kml kml = Kml.unmarshal(f);
           Folder folder =  (Folder) kml.getFeature();
@@ -19,13 +20,14 @@ public class GPSService {
         for(Feature feature : features){
             placemark = (Placemark) feature;
                LineString lineString = (LineString) placemark.getGeometry();
-                 List <Coordinate> coordinates = lineString.getCoordinates();
-             if(!coordinates.isEmpty()){
+                 coordinates = lineString.getCoordinates();
+             if(!coordinates.isEmpty()){/*
                  for (Coordinate coordinate : coordinates) {
                      //получаем координаты
                      System.out.println("coordinate: lat = " + coordinate.getLatitude()+
                                          "\tlon = " + coordinate.getLongitude());
-                 }
+                 }*/
+                 return coordinates;
              }
         }
 
@@ -42,6 +44,6 @@ public class GPSService {
         }*/
 
 
-
+     return null;
     }
 }

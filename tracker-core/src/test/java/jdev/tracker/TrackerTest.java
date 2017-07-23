@@ -31,7 +31,7 @@ public class TrackerTest {
         System.out.println(point.toString());
         System.out.println(point.toJson());
 
-        GPSService gps = new GPSService();
-        gps.getCoordinates(fileName);
+        //GPSService gps = new GPSService();
+        //gps.getCoordinates(fileName);
     }
 }
