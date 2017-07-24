@@ -26,6 +26,7 @@ public class PointDTOTest {
                           {77.1539,120.398,77.1804,129.55},
                           {77.1539,-120.398,77.1804,129.55}
         };
+
         //    Lat1    lon1       lat2   lon2    distance   bearing
         // 	77.1539/-139.398  -77.1804/-139.55 17166029 180.077867811
         //  77.1539/ 120.398   77.1804/ 129.55   225883  84.7925159033
@@ -36,7 +37,7 @@ public class PointDTOTest {
             p1.setLon(coord[i][1]);
             p2.setLat(coord[i][2]);
             p2.setLon(coord[i][3]);
-                    dist1 = CoordinatesToDistance.getDistance(p1, p2);
+                    dist1 = PointCalculate.getDistance(p1, p2);
 
 
             System.out.printf("Distance = %-23.10f\n", dist1);

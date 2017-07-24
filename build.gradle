@@ -41,22 +41,23 @@ project(':server-ui') {
     }
 }
 
-project(':tracker-core'){
+project(':tracker-core') {
     apply plugin: 'java-library-distribution'
     apply plugin: 'gradle-one-jar'
-    dependencies{
+    dependencies {
         compile project(':common')
         compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.1'
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.2'
 
-    }
-    task fatJar(type: OneJar){
-        mainClass = 'jdev.tracker.Main'
+        task fatJar(type: OneJar) {
+            mainClass = 'jdev.tracker.Main'
+        }
     }
 }
 
-
-project(':tracker-ui') {
-    dependencies {
+    project(':tracker-ui') {
+        dependencies {
             compile project(':common')
         }
-}
+    }
