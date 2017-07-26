@@ -27,7 +27,7 @@ public class DataSendService {
             // Передаем данные точки на сервер
             System.out.println("Сервис передачи отправляет на сервер сообщение: " + point.toJson());
             // извлекаем точку из очереди сервиса хранения
-            point = dataSaveService.saveQueue.poll();
+            log.info("DataSendService send to server:" + dataSaveService.saveQueue.poll());
         }
         System.out.println("-----Send OK!-------");
     }
