@@ -18,7 +18,7 @@ public class DataSendService {
 
     private static DataSaveService dataSaveService;
 
-    @Scheduled (cron = "${saveSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
+    @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
     private void dataSend(){
         // Передаем данные на сервер
         System.out.println("Передаем данные на сервер:");
