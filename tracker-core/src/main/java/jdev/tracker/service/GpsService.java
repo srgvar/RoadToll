@@ -5,13 +5,11 @@ import jdev.dto.PointCalculate;
 import jdev.dto.PointDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 /**
@@ -28,31 +26,28 @@ public class GpsService {
 
     /** Логгер сервиса GPS */
     private static final Logger log = LoggerFactory.getLogger(GpsService.class);
+
     /* Предыдущая точка */
     PointDTO previousPoint = new PointDTO();
+
     /* Список координат, полученных из kml - файла */
     private List<Coordinate> coordinates;
+
     /* Очередь для помещения точек с координатами, скоростью и азимутом сервисом  GPS
     * и для чтения сервисом хранения */
-    private static LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
+    protected static LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
 
-    @Autowired
-    private DataSaveService dataSaveService;
 
     /** Инициализация сервиса:
      * получаение списка координат из файла и
-     * передача адреса очреди сервиса GPS
-     * сервису хранения данных */
-
+     */
     @PostConstruct
     private void init(){
         // получаем список координат
         coordinates = getCoordinates();
-        // передаем адрес очереди GPS сервису хранения
-        dataSaveService.setGpsQueue(gpsQueue);
     }
 
-    /** формирование */
+    /** формирование точки и помещение её в очередь сервиса GPS*/
     @Scheduled(cron = "${gpsSchedule}") //Шедулер сервиса GPS
     void put() {
         PointDTO point = new PointDTO(); // новая точка
@@ -62,12 +57,14 @@ public class GpsService {
             Coordinate coordinate =  coordinates.iterator().next();
             point.setLat(coordinate.getLatitude()); // широта
             point.setLon(coordinate.getLongitude()); // долгота
+
             /** Вычисляем азимут */
             point.setBearing(PointCalculate.getBearing(previousPoint, point));
-            log.info("GpsService send point: " + point.toString());
+            /** Вычисляем скорость */
             point.setSpeed(PointCalculate.getSpeed(previousPoint, point));
             try {
                 gpsQueue.put(point); // помещаем точку в очередь сервиса GPS
+                log.info("GpsService generate point: " + point.toString());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -92,6 +89,7 @@ public class GpsService {
         Folder folder =  (Folder) kml.getFeature();
         List <Feature> features = folder.getFeature();
         Placemark placemark = new Placemark();
+
         // Просматриваем все объекты Feature
         for(Feature feature : features){
             placemark = (Placemark) feature; // Приводим их к типу Placemark
@@ -103,8 +101,6 @@ public class GpsService {
                 return  coordinates; // возвращаем список координат
             }
         }
-
-
         return null; // возвращаем пустой список
     }
 }

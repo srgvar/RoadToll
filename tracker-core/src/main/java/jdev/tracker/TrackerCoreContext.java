@@ -15,23 +15,21 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  */
 @Configuration
 @EnableScheduling
-@PropertySource("classpath:/RoadToll.properties")
+@PropertySource("classpath:/roadtoll.properties")
 class TrackerCoreContext {
-    // Сервис GPS
-    @Bean
-    public GpsService gps(){
-        return new GpsService();
-    }
+
     // Сервис храниеия
     @Bean
-    public DataSaveService dataSaveService(){
-        return new DataSaveService();
-    }
+    private static DataSaveService dataSaveService(){return new DataSaveService();    }
 
     // Сервис передачи
     @Bean
-    public DataSendService dataSendService(){
-        return new DataSendService();
+    private static DataSendService dataSendService(){return new DataSendService();}
+
+    // Сервис GPS
+    @Bean
+    private static GpsService gps(){
+        return new GpsService();
     }
 
     // Шедулер
