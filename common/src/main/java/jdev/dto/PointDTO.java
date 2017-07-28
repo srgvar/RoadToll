@@ -90,7 +90,7 @@ public class PointDTO {
 
     /** Преобразование JSON-строки в объект PointDTO.
      * Используем ObjectMapper из библиотеки com.fasterxml... */
-    public PointDTO fromJson(String content) throws IOException {
+    public PointDTO fromJson(String content)  {
               ObjectMapper mapper = new ObjectMapper();
                  try {
                    return mapper.readValue(

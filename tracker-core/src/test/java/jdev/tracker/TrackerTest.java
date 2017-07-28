@@ -1,18 +1,23 @@
 package jdev.tracker;
 
 import jdev.dto.PointDTO;
-import jdev.tracker.service.GPSService;
+import jdev.tracker.service.GpsService;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 /**
  * Created by srgva on 17.07.2017.
  */
+
 public class TrackerTest {
     String fileName = "c:\\JavaDev\\TRACKS\\10158\\10158.kml";
     @Test
-    public void testTracker(){
+    public void testTracker() throws IOException {
 
         System.out.println("TrackerTest....");
 
@@ -33,5 +38,13 @@ public class TrackerTest {
 
         //GPSService gps = new GPSService();
         //gps.getCoordinates(fileName);
+        String restRequest = "http://localhost:8080/tracker?point=point123";
+        URL url = new URL(restRequest);
+        System.out.println(url);
+        String ioString = IOUtils.toString(new URL(restRequest),"UTF8");
+
+        System.out.println(ioString);
     }
+
+
 }
