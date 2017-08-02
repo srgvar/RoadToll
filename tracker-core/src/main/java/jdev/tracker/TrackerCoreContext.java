@@ -1,9 +1,7 @@
 package jdev.tracker;
 
-import jdev.tracker.service.DataSaveService;
-import jdev.tracker.service.DataSendService;
-import jdev.tracker.service.GpsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.TaskScheduler;
@@ -16,21 +14,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @Configuration
 @EnableScheduling
 @PropertySource("classpath:/roadtoll.properties")
+@ComponentScan("jdev.tracker.services")
 class TrackerCoreContext {
 
-    // Сервис храниеия
-    @Bean
-    private static DataSaveService dataSaveService(){return new DataSaveService();    }
-
-    // Сервис передачи
-    @Bean
-    private static DataSendService dataSendService(){return new DataSendService();}
-
-    // Сервис GPS
-    @Bean
-    private static GpsService gps(){
-        return new GpsService();
-    }
 
     // Шедулер
     @Bean

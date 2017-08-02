@@ -1,4 +1,4 @@
-package jdev.tracker.service;
+package jdev.tracker.services;
 
 import de.micromata.opengis.kml.v_2_2_0.*;
 import jdev.dto.PointCalculate;

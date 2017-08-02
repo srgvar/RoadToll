@@ -11,17 +11,11 @@ import org.springframework.web.client.RestTemplate;
  * Created by srgva on 18.07.2017.
  */
 
-@SpringBootApplication
-@ComponentScan({"controllers","app"})
 public class Main {
 
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
-    }
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
+        System.out.println("Server core");;
     }
 
 }
