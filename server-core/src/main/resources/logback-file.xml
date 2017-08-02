@@ -2,7 +2,7 @@
 <configuration>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>./logs/tracker.log</file>
+        <file>./logs/server.log</file>
 
         <!--<append>true</append>-->
         <!--<prudent>true</prudent>-->

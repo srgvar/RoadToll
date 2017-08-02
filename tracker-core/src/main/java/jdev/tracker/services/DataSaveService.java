@@ -27,7 +27,6 @@ public class DataSaveService {
     // Логгер сервиса хранения
     private static final Logger log = LoggerFactory.getLogger(DataSaveService.class);
     // Сервис GPS
-    @Autowired
     private static GpsService gps;
     //protected static BlockingDeque<PointDTO> gpsQueue;
 
