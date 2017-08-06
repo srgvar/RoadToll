@@ -12,14 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 // Мой тестовый контроллер :)
 // возвращает полученную строку :))
+// для тестирования запросов к серверу
+// из финального релиза - убрать !!!
 @RestController
 @RequestMapping("/test")
 public class MyTestController {
 
     @RequestMapping(method = RequestMethod.GET)
     //  @ResponseBody
-    public String getPoint(@RequestParam("point") String point){
-        System.out.println(point);
-        return point;
+    public String getRequest(@RequestParam("point") String request){
+        System.out.println(request);
+        return request;
     }
 }
