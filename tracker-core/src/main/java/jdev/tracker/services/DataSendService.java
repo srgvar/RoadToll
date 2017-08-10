@@ -52,11 +52,11 @@ public class DataSendService {
                 if (response.equals(successResponse)) {
                     log.info(" send to server success: " + dataSaveService.saveQueue.poll());
                 } else {
-                    log.info(" send to server FAILURE: " + point);
+                    log.error(" send to server FAILURE: " + point);
                     break;
                 }
             }catch(Exception e){
-                log.info("ERROR to server sent: " + e.getMessage());
+                log.error("ERROR to server sent: " + e.getMessage());
             }
         }
     }
