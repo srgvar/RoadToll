@@ -12,7 +12,7 @@ import java.net.URL;
  */
 
 public class TrackerTest {
-    String fileName = "c:\\JavaDev\\TRACKS\\10158\\10158.kml";
+    String fileName = ".\\resource\\tracks\\10158.kml";
     @Test
     public void testTracker() throws IOException {
 

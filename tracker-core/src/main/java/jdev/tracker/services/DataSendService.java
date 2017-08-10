@@ -46,12 +46,17 @@ public class DataSendService {
                     URLEncoder.encode(point.toJson(),"UTF8");
 
             //Отправляем данные на сервер и ожидаем результат
-            String response = IOUtils.toString(new URL(restRequest),"UTF8");
-            if(response.equals(successResponse)){
-                log.info(" send to server success: " + dataSaveService.saveQueue.poll());
-            }else{
-                log.info(" send to server FAILURE: " + point);
-                break;
+            String response;
+            try {
+                response = IOUtils.toString(new URL(restRequest), "UTF8");
+                if (response.equals(successResponse)) {
+                    log.info(" send to server success: " + dataSaveService.saveQueue.poll());
+                } else {
+                    log.info(" send to server FAILURE: " + point);
+                    break;
+                }
+            }catch(Exception e){
+                log.info("ERROR to server sent: " + e.getMessage());
             }
         }
     }
