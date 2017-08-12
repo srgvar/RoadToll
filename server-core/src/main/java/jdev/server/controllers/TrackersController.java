@@ -3,49 +3,61 @@ package jdev.server.controllers;
 /**
  * Created by srgva on 02.08.2017.
  */
+import jdev.dto.PointDTO;
+import jdev.dto.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-
-
-
-
-
-        import jdev.dto.PointDTO;
-        import jdev.dto.Response;
-        import org.slf4j.Logger;
-        import org.slf4j.LoggerFactory;
-        import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.RequestMethod;
-        import org.springframework.web.bind.annotation.RequestParam;
-        import org.springframework.web.bind.annotation.ResponseBody;
-        import org.springframework.web.bind.annotation.RestController;
-        import java.io.UnsupportedEncodingException;
-        import java.net.URLDecoder;
-
+import javax.annotation.PostConstruct;
+import java.io.*;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 
 
 @RestController
-@RequestMapping("/tracker")
 public class TrackersController {
     private static final Logger log = LoggerFactory.getLogger(TrackersController.class);
-    private PointDTO pointDTO = new PointDTO();
-    Response ret;
+    ResponseEntity<String> ret;
 
-    //String pointString = "";
+    @Value("${fileToSave}")
+    String fileToSave;
+    File storeFile;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/tracker", method = RequestMethod.POST)
     @ResponseBody
-    public Response getPoint(@RequestParam("point") String point){
-        try {
-            // декодируем параметр  из url в json
-            point = URLDecoder.decode(point, "UTF8");
-            // формируем объект PointDTO из полученной строки
-            PointDTO pointDto = new PointDTO(point);
-            log.info(" success get: " + pointDto.toString());
-            ret = new Response(Response.L_SUCCESS, Response.S_SUCCESS);
-        } catch (UnsupportedEncodingException e) {
-            log.info(" failure get: " + point);
-            ret = new Response(Response.L_FAILURE, Response.S_FAILURE);
+    public ResponseEntity<String> getPoint(@RequestBody PointDTO point) {
+
+        try{ //Проверка наличия пути/файла для вывода
+            File file = new File(".");
+            String fullPathToFileSave = file.getCanonicalPath().toString() + fileToSave;
+            storeFile = new File(fullPathToFileSave);
+            if (!storeFile.exists()) { // Если нет файла для сохранения
+                String storePath = storeFile.getParent();
+                File storeDir = new File(storePath); //Путь к файлу
+                storeDir.mkdirs(); //создать путь
+            }
+        }catch(Exception e){
+            log.error(" failure get: " + e.getMessage());
             e.printStackTrace();
+            /** Ошибка - для передачи треккеру */
+            ret = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        // Пишем данные в файл
+        try(FileWriter fw = new FileWriter(storeFile.getAbsoluteFile(), true)) {
+            fw.write(point.toJson()+"\n");
+            fw.flush();
+            log.info(" success get and save: " + point.toString()); // пишем в лог
+            /** Успешно - для передачи треккеру */
+            ret = new ResponseEntity<String>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(" failure get: " + e.getMessage());
+            e.printStackTrace();
+            /** Ошибка - для передачи треккеру */
+            ret = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ret;
     }

@@ -10,8 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 // @Configuration
 
 @SpringBootApplication
-@ComponentScan({"jdev.server.main",
-                "jdev.server.controllers",
+@ComponentScan({"jdev.server.controllers",
                 "jdev.server.test"})
 public class ServerCore {
     public static void main(String[] args) {

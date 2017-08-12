@@ -2,10 +2,8 @@ package jdev.server.test;
 
 import jdev.dto.PointDTO;
 import jdev.dto.Response;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by srgva on 30.07.2017.
@@ -15,13 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 // для тестирования запросов к серверу
 // из финального релиза - убрать !!!
 @RestController
-@RequestMapping("/test")
 public class MyTestController {
-
-    @RequestMapping(method = RequestMethod.GET)
-    //  @ResponseBody
-    public String getRequest(@RequestParam("point") String request){
-        System.out.println(request);
+    @RequestMapping(value = "/test",
+            method = RequestMethod.POST)
+    @ResponseBody
+    public PointDTO getPoint(@RequestBody PointDTO request) {
+        System.out.println("TEST CONTROLLER - Request: " + request.toString());
         return request;
     }
+
+
+ /*   public String getRequest(@RequestParam("point") String request){
+        System.out.println(request);
+        return request;
+    }*/
 }

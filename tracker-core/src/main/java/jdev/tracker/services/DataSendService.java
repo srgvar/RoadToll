@@ -6,9 +6,13 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -33,7 +37,8 @@ public class DataSendService {
 
     @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
     private void dataSend() throws IOException {
-        String restRequest;
+        String url = serverURL + "/tracker";
+        RestTemplate restTemplate = new RestTemplate();
 
         // Передаем данные на сервер
         // пока есть данные в очеерди сервиса хранения
@@ -41,22 +46,19 @@ public class DataSendService {
             // Передаем данные точки на сервер
             // для каждой точки из очереди сервиса хранения
             // формируем запрос к серверу
-            restRequest = serverURL+"/tracker?point=" +
-                    //Кодируем параметр для нормализации URL
-                    URLEncoder.encode(point.toJson(),"UTF8");
-
-            //Отправляем данные на сервер и ожидаем результат
-            String response;
+            // Отправляем данные на сервер и ожидаем результат
             try {
-                response = IOUtils.toString(new URL(restRequest), "UTF8");
-                if (response.equals(successResponse)) {
+                ResponseEntity<?> r = restTemplate.postForEntity(url,
+                        point, PointDTO.class);
+                if (r.getStatusCode() == HttpStatus.CREATED) {
                     log.info(" send to server success: " + dataSaveService.saveQueue.poll());
                 } else {
-                    log.error(" send to server FAILURE: " + point);
+                    log.error(" send to server FAILURE, error code: " +  r +
+                            " for point:" + point);
                     break;
                 }
             }catch(Exception e){
-                log.error("ERROR to server sent: " + e.getMessage());
+                log.info("Send to server exception: " + e.getMessage());
             }
         }
     }
