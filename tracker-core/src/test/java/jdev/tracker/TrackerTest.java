@@ -38,25 +38,19 @@ public class TrackerTest {
         System.out.println(point.toString());
         System.out.println(point.toJson());
 
-        //GPSService gps = new GPSService();
-        //gps.getCoordinates(fileName);
-        // String restRequest = "http://localhost:8080/tracker?point=point123";
-        //URL url = new URL(restRequest);
-        // System.out.println(url);
-        // String ioString = IOUtils.toString(new URL(restRequest),"UTF8");
-
-        // System.out.println(ioString);
 
 
         RestTemplate restTemplate = new RestTemplate();
         PointDTO point1 = new PointDTO(point.toJson());
 
         HttpEntity<PointDTO> entity = new HttpEntity<PointDTO>(point1);
-
-        ResponseEntity <PointDTO> response = restTemplate.postForEntity(
-                "http://localhost:8080/test/", entity, PointDTO.class);
-        PointDTO e = response.getBody();
-
+try {
+    ResponseEntity<PointDTO> response = restTemplate.postForEntity(
+            "http://localhost:8080/test/", entity, PointDTO.class);
+    PointDTO e = response.getBody();
+} catch(Exception e){
+    e.printStackTrace();
+}
 
 
     }
