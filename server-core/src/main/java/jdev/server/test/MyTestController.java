@@ -1,8 +1,6 @@
 package jdev.server.test;
 
 import jdev.dto.PointDTO;
-import jdev.dto.Response;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**

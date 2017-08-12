@@ -4,18 +4,14 @@ package jdev.server.controllers;
  * Created by srgva on 02.08.2017.
  */
 import jdev.dto.PointDTO;
-import jdev.dto.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.PostConstruct;
-import java.io.*;
-import java.net.URLDecoder;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
 
 
 @RestController

@@ -1,14 +1,11 @@
 package jdev.tracker;
 
 import jdev.dto.PointDTO;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * Created by srgva on 17.07.2017.
