@@ -37,6 +37,7 @@ project(':server-core'){
 
     dependencies{
         compile project(':common')
+        compile group: 'org.springframework', name: 'spring-web', version: '4.3.8.RELEASE'
         compile("org.springframework.boot:spring-boot-starter-thymeleaf")
         compile("org.springframework.boot:spring-boot-devtools")
         testCompile("org.springframework.boot:spring-boot-starter-test")
@@ -61,6 +62,7 @@ project(':tracker-core') {
     apply plugin: 'gradle-one-jar'
     dependencies {
         compile project(':common')
+        compile group: 'org.springframework', name: 'spring-web', version: '4.3.8.RELEASE'
         compile group: 'commons-io', name: 'commons-io', version: '2.5'
         compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.1'
 
