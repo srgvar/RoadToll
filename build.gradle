@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE'
-        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.6.RELEASE")
+        classpath("com.github.rholder:gradle-one-jar:1.0.4")
     }
 }
 
@@ -32,16 +32,26 @@ project(':common'){
 
 project(':server-core'){
     apply plugin: 'java-library-distribution'
-    apply plugin: 'gradle-one-jar'
+    apply plugin: 'war'
     apply plugin: 'org.springframework.boot'
+//    apply plugin: 'gradle'
 
     dependencies{
         compile project(':common')
         compile group: 'org.springframework', name: 'spring-web', version: '4.3.8.RELEASE'
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.3.RELEASE'
         compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+        compile("org.springframework.boot:spring-boot-starter-web")
         compile("org.springframework.boot:spring-boot-devtools")
-        testCompile("org.springframework.boot:spring-boot-starter-test")
         compile group: 'commons-io', name: 'commons-io', version: '2.5'
+        // tag::security[]
+        compile group: 'org.springframework.security', name: 'spring-security-config', version: '3.2.4.RELEASE'
+        compile('org.springframework.boot:spring-boot-starter-security')
+        compile("org.springframework.boot:spring-boot-starter-tomcat")
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.3.3.RELEASE'
+        // end::security[]
+        testCompile("org.springframework.boot:spring-boot-starter-test")
+        testCompile('org.springframework.security:spring-security-test')
 
     }
 
@@ -60,8 +70,10 @@ project(':server-ui') {
 project(':tracker-core') {
     apply plugin: 'java-library-distribution'
     apply plugin: 'gradle-one-jar'
+
     dependencies {
         compile project(':common')
+        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
         compile group: 'org.springframework', name: 'spring-web', version: '4.3.8.RELEASE'
         compile group: 'commons-io', name: 'commons-io', version: '2.5'
         compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.1'

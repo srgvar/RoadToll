@@ -1,11 +1,16 @@
 package jdev.tracker;
 
 import jdev.dto.PointDTO;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
+import java.net.URI;
+import java.util.Arrays;
 
 /**
  * Created by srgva on 17.07.2017.
@@ -40,16 +45,26 @@ public class TrackerTest {
         RestTemplate restTemplate = new RestTemplate();
         PointDTO point1 = new PointDTO(point.toJson());
 
-        HttpEntity<PointDTO> entity = new HttpEntity<PointDTO>(point1);
-try {
-    ResponseEntity<PointDTO> response = restTemplate.postForEntity(
-            "http://localhost:8080/test/", entity, PointDTO.class);
-    PointDTO e = response.getBody();
+        HttpEntity<PointDTO> entity = new HttpEntity<>(point1, getHeaders());
+
+       try{
+       ResponseEntity<?> r = restTemplate.postForEntity("http://localhost:8080/test", entity, HttpEntity.class);
+           System.out.println(r);
 } catch(Exception e){
     e.printStackTrace();
 }
 
 
+    }
+    private static HttpHeaders getHeaders(){
+        String plainCredentials="tracker:tracker";
+        String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Credentials);
+        headers.add("","");
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        return headers;
     }
 
 

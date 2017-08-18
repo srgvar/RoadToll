@@ -2,16 +2,24 @@ package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
 import jdev.dto.Response;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import java.io.IOException;
+import java.net.URI;
+import java.util.Arrays;
+
+//import org.apache.tomcat.jni.SSLContext;
+//import org.apache.http.conn.ssl.*;
+//import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+//import javax.net.ssl.SSLContext;
 
 
 /**
@@ -29,33 +37,53 @@ public class DataSendService {
     private static DataSaveService dataSaveService;
 
     @Value("${serverURL}")
-    String serverURL;
+    private String serverURL;
 
     @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
     private void dataSend() throws IOException {
         String url = serverURL + "/tracker";
+
+
+        /* ******** Аутентификация ********* */
+
+
+        /* ------- Аутентификация -------- */
+
         RestTemplate restTemplate = new RestTemplate();
+
 
         // Передаем данные на сервер
         // пока есть данные в очеерди сервиса хранения
-        for(PointDTO point: dataSaveService.saveQueue){
+        for(PointDTO point: DataSaveService.saveQueue){
             // Передаем данные точки на сервер
             // для каждой точки из очереди сервиса хранения
             // формируем запрос к серверу
             // Отправляем данные на сервер и ожидаем результат
             try {
-                ResponseEntity<?> r = restTemplate.postForEntity(url,
-                        point, PointDTO.class);
-                if (r.getStatusCode() == HttpStatus.CREATED) {
-                    log.info(" send to server success: " + dataSaveService.saveQueue.poll());
+                HttpEntity <PointDTO> sendEntity = new HttpEntity<>(point, getHeaders());
+
+                ResponseEntity<?> response = restTemplate.postForEntity(url,  sendEntity, PointDTO.class);
+
+                if (response.getStatusCode() == HttpStatus.CREATED) {
+                    log.info(" send to server success: " + DataSaveService.saveQueue.poll());
                 } else {
-                    log.error(" send to server FAILURE, error code: " +  r +
+                    log.error(" send to server FAILURE, error code: " +  response +
                             " for point:" + point);
                     break;
                 }
             }catch(Exception e){
-                log.info("Send to server exception: " + e.getMessage());
+                log.error(" send to server ERROR: " + e.getMessage());
             }
         }
     }
+    private static HttpHeaders getHeaders(){
+        String plainCredentials="tracker:tracker";
+        String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Credentials);
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+        return headers;
+    }
+
 }

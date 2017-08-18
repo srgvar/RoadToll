@@ -16,26 +16,26 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Created by srgva on 23.07.2017.
  */
 @Service
-public class GpsService {
+class GpsService {
 
     @Value("${kmlFile}")
-    String kmlFileName; //имя файла с координатами - в файле roadtoll.propertis
+    private String kmlFileName; //имя файла с координатами - в файле roadtoll.propertis
 
     @Value("${autoId}")
-    String autoId; // номер авто - в файле roadtoll.propertis
+    private String autoId; // номер авто - в файле roadtoll.propertis
 
     /** Логгер сервиса GPS */
     private static final Logger log = LoggerFactory.getLogger(GpsService.class);
 
     /* Предыдущая точка */
-    PointDTO previousPoint = new PointDTO();
+    private PointDTO previousPoint = new PointDTO();
 
     /* Список координат, полученных из kml - файла */
     private List<Coordinate> coordinates;
 
     /* Очередь для помещения точек с координатами, скоростью и азимутом сервисом  GPS
     * и для чтения сервисом хранения */
-    protected static LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
+    static LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
 
 
     /** Инициализация сервиса:
@@ -58,20 +58,21 @@ public class GpsService {
             point.setLat(coordinate.getLatitude()); // широта
             point.setLon(coordinate.getLongitude()); // долгота
 
-            /** Вычисляем азимут */
+            /* Вычисляем азимут */
             point.setBearing(PointCalculate.getBearing(previousPoint, point));
-            /** Вычисляем скорость */
+            /* Вычисляем скорость */
             point.setSpeed(PointCalculate.getSpeed(previousPoint, point));
             try {
                 gpsQueue.put(point); // помещаем точку в очередь сервиса GPS
                 log.info("GpsService generate point: " + point.toString());
             } catch (InterruptedException e) {
+                log.error(" exception: " + e.getMessage());
                 e.printStackTrace();
             }
             // удаляем текущую точку из списка
             coordinates.remove(coordinate);
 
-            /** Предыдущая точка становится текущей - для последующих вычислений
+            /* Предыдущая точка становится текущей - для последующих вычислений
              *  азимута и скорости следующей точки
              */
             previousPoint = point;
@@ -88,7 +89,7 @@ public class GpsService {
         // Объект Folder может содержать список объектов Feature
         Folder folder =  (Folder) kml.getFeature();
         List <Feature> features = folder.getFeature();
-        Placemark placemark = new Placemark();
+        Placemark placemark;// = new Placemark();
 
         // Просматриваем все объекты Feature
         for(Feature feature : features){
