@@ -1,7 +1,6 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
-import jdev.dto.Response;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.net.URI;
 import java.util.Arrays;
 
 //import org.apache.tomcat.jni.SSLContext;
@@ -27,8 +24,7 @@ import java.util.Arrays;
  */
 @Service
 @EnableScheduling
-public class DataSendService {
-    public static final String successResponse = new Response(Response.L_SUCCESS, Response.S_SUCCESS).toJson();
+class DataSendService {
 
     /** Логгер сервиса передачи */
     private static final Logger log = LoggerFactory.getLogger(DataSendService.class);
@@ -40,7 +36,7 @@ public class DataSendService {
     private String serverURL;
 
     @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
-    private void dataSend() throws IOException {
+    private void dataSend()  {
         String url = serverURL + "/tracker";
 
 

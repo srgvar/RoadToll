@@ -14,21 +14,16 @@ import java.io.FileWriter;
 
 
 @RestController
-public class TrackersController {
+class TrackersController {
     private static final Logger log = LoggerFactory.getLogger(TrackersController.class);
-    private ResponseEntity <Void> ret;
 
     @Value("${fileToSave}")
     private String fileToSave;
-    private File storeFile;
 
-    @RequestMapping(value = "/tracker", method = RequestMethod.POST)
-    // consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-    // produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/tracker", method = RequestMethod.POST,
+         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> getPoint(@RequestBody PointDTO point) {
-       // HttpHeaders responseHeaders = new HttpHeaders();
-        // System.out.println(responseHeaders);
-        System.out.println("Point = " + point);
+        File storeFile;
         try{ //Проверка наличия пути/файла для вывода
             File file = new File(".");
             String fullPathToFileSave = file.getCanonicalPath() + fileToSave;
@@ -42,7 +37,7 @@ public class TrackersController {
             log.error(" failure get: " + e.getMessage());
             e.printStackTrace();
             /* Ошибка - для передачи треккеру */
-            ret = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // Пишем данные в файл
         try(FileWriter fw = new FileWriter(storeFile.getAbsoluteFile(), true)) {
@@ -50,15 +45,13 @@ public class TrackersController {
             fw.flush();
             log.info(" success get and save: " + point.toString()); // пишем в лог
             /* Успешно - для передачи треккеру */
-            ret = new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             log.error(" failure get: " + e.getMessage());
             e.printStackTrace();
             /* Ошибка - для передачи треккеру */
-            ret = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ret;
     }
-
 }
 

@@ -35,7 +35,7 @@ class GpsService {
 
     /* Очередь для помещения точек с координатами, скоростью и азимутом сервисом  GPS
     * и для чтения сервисом хранения */
-    static LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
+    static final LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
 
 
     /** Инициализация сервиса:
@@ -89,7 +89,7 @@ class GpsService {
         // Объект Folder может содержать список объектов Feature
         Folder folder =  (Folder) kml.getFeature();
         List <Feature> features = folder.getFeature();
-        Placemark placemark;// = new Placemark();
+        Placemark placemark;
 
         // Просматриваем все объекты Feature
         for(Feature feature : features){

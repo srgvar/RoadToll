@@ -16,13 +16,13 @@ public class PointCalculate {
      * @param point2 -  конечная точка
      * @return расстояние между точками в метрах
      */
- public static double getDistance(PointDTO point1, PointDTO point2){
+ static double getDistance(PointDTO point1, PointDTO point2){
      double lat1 = toRadians(point1.getLat());
      double lat2 = toRadians(point2.getLat());
      double lon1 = toRadians(point1.getLon());
      double lon2 = toRadians(point2.getLon());
      // расстояние между точками
-     double distance =  RADIUS_EARTH * 2 *
+     return  RADIUS_EARTH * 2 *
              asin(
                   sqrt(
                        pow(sin((lat1 - lat2) / 2), 2) +
@@ -30,10 +30,6 @@ public class PointCalculate {
                        pow(sin((lon1 - lon2) / 2),2)
                        )
                   );
-
-
-
-     return distance;
  }
 
     /**
@@ -43,7 +39,6 @@ public class PointCalculate {
      * @param point2 -  конечная точка
      * @return знаачение азимута в градусах
      */
-/** Вычислеие  азимута */
  public static double getBearing(PointDTO point1, PointDTO point2){
      // Азимут
      double lat1 = toRadians(point1.getLat());

@@ -45,8 +45,8 @@ public class PointDTOTest {
 
 
 
-        /** тесты преобразований */
-        /** из объекта PointDTO в JSON - строку */
+        /* тесты преобразований */
+        /* из объекта PointDTO в JSON - строку */
         assertTrue(point.toJson().contains("\"lat\":56"));
         assertTrue(point.toJson().contains("\"time\":"));
         System.out.println(point.toString());
@@ -54,7 +54,7 @@ public class PointDTOTest {
         String json = point.toJson(); // получаем JSON-строку
         System.out.println("point json = " + json);
 
-        /** из JSON-строки в объект PointDTO */
+        /* из JSON-строки в объект PointDTO */
         PointDTO point2 = new PointDTO().fromJson(json);
         point2.setAutoId("a123bcd"); // зададим авто другой номер
         assertEquals(autoId, point2.getAutoId());

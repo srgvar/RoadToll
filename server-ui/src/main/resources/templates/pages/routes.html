@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Routes </title>
+    </head>
+    <body bgcolor="#e0e0e0" background="/res/img/bg.png">
+        <h1 th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</h1>
+        <h1> Работа с Routes </h1>
+        <p>Поработать с  <a th:href="@{/routes/1}"> Route № 1 </a></p>
+        <p>Поработать с  <a th:href="@{/routes/2}"> Route № 2 </a></p>
+        <p> <a th:href="@{/home}"> Вернуться </a></p>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Выйти"/>
+        </form>
+    </body>
+</html>

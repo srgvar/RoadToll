@@ -1,7 +1,7 @@
 package jdev.dto;
 
-/**
- * Created by srgva on 17.07.2017.
+/*
+  Created by srgva on 17.07.2017.
  */
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,12 +32,7 @@ public class PointDTO {
 
     } // пустой конструктор
 
-    public PointDTO(@JsonProperty("lat") double lat,
-                    @JsonProperty("lon") double lon,
-                    @JsonProperty("bearing") double bearing,
-                    @JsonProperty("speed") double speed,
-                    @JsonProperty("autoId") String autoId,
-                    @JsonProperty("time") long time) {
+ /*   private PointDTO(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon, @JsonProperty("bearing") double bearing, @JsonProperty("speed") double speed, @JsonProperty("autoId") String autoId, @JsonProperty("time") long time) {
         this.lat = lat;
         this.lon = lon;
         this.bearing = bearing;
@@ -45,18 +40,18 @@ public class PointDTO {
         this.autoId = autoId;
         this.time = time;
 
-    }
+    }*/
     public PointDTO(String content){
         //this();
-        PointDTO p = new PointDTO();
+        PointDTO p1;
         PointDTO p2 = new PointDTO();
-        p=p2.fromJson(content);
-        this.lat = p.lat;
-        this.lon = p.lon;
-        this.bearing = p.bearing;
-        this.speed = p.speed;
-        this.autoId = p.autoId;
-        this.time = p.time;
+        p1=p2.fromJson(content);
+        this.lat = p1.lat;
+        this.lon = p1.lon;
+        this.bearing = p1.bearing;
+        this.speed = p1.speed;
+        this.autoId = p1.autoId;
+        this.time = p1.time;
     }
 
     /**
@@ -79,7 +74,7 @@ public class PointDTO {
         this.lon = lon;
     }
 
-    public String getAutoId() {
+    String getAutoId() {
         return autoId;
     }
 
