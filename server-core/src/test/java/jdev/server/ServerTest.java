@@ -34,7 +34,7 @@ public class ServerTest {
 
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/test";
+        String url = "http://localhost:8080/tracker";
 
         points.add(point);
         PointDTO point1 = new PointDTO(point.toJson());
@@ -50,7 +50,7 @@ public class ServerTest {
 
 
             System.out.println("Response Entity " + r);
-            if (r.getStatusCode() == HttpStatus.OK) {
+            if (r.getStatusCode() == HttpStatus.CREATED) {
                 System.out.println("On server created POINT: " + point1);
             }
             else{
