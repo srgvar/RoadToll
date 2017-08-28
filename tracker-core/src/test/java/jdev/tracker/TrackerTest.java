@@ -48,7 +48,7 @@ public class TrackerTest {
         HttpEntity<PointDTO> entity = new HttpEntity<>(point1, getHeaders());
 
        try{
-       ResponseEntity<?> r = restTemplate.postForEntity("http://localhost:8080/tracker", entity, HttpEntity.class);
+       ResponseEntity<?> r = restTemplate.postForEntity("http://localhost:9090/tracker", entity, HttpEntity.class);
            System.out.println(r);
 } catch(Exception e){
     e.printStackTrace();

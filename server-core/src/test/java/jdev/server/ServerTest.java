@@ -34,7 +34,7 @@ public class ServerTest {
 
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/tracker";
+        String url = "http://localhost:9090/tracker";
 
         points.add(point);
         PointDTO point1 = new PointDTO(point.toJson());
