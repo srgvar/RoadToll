@@ -32,26 +32,16 @@ public class PointDTO {
 
     } // пустой конструктор
 
- /*   private PointDTO(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon, @JsonProperty("bearing") double bearing, @JsonProperty("speed") double speed, @JsonProperty("autoId") String autoId, @JsonProperty("time") long time) {
-        this.lat = lat;
-        this.lon = lon;
-        this.bearing = bearing;
-        this.speed = speed;
-        this.autoId = autoId;
-        this.time = time;
 
-    }*/
-    public PointDTO(String content){
-        //this();
-        PointDTO p1;
-        PointDTO p2 = new PointDTO();
-        p1=p2.fromJson(content);
-        this.lat = p1.lat;
-        this.lon = p1.lon;
-        this.bearing = p1.bearing;
-        this.speed = p1.speed;
-        this.autoId = p1.autoId;
-        this.time = p1.time;
+    public PointDTO(String json){
+        PointDTO pointDTO = new PointDTO();
+        pointDTO = pointDTO.fromJson(json);
+        this.lat = pointDTO.lat;
+        this.lon = pointDTO.lon;
+        this.bearing = pointDTO.bearing;
+        this.speed = pointDTO.speed;
+        this.autoId = pointDTO.autoId;
+        this.time = pointDTO.time;
     }
 
     /**
@@ -126,28 +116,40 @@ public class PointDTO {
     @Override
     public String toString() {
         return "PointDTO{" +
-                "lat=" + lat +
-                ", lon=" + lon +
-                ", bearing=" + bearing +
-                ", speed=" + speed +
-                ", autoId='" + autoId + '\'' +
-                ", time=" + time + '}';
+                "lat = " + lat +
+                ", lon = " + lon +
+                ", bearing = " + bearing +
+                ", speed = " + speed +
+                ", autoId = '" + autoId + '\'' +
+                ", time = " + time + '}';
     }
-
     /**
      * Преобразование JSON-строки в объект PointDTO.
-     * Используем ObjectMapper из библиотеки com.fasterxml...
+     * используем ObjectMapper из библиотеки com.fasterxml...
+
      */
-    //@PostConstruct
+
+
     public PointDTO fromJson(String content) {
         ObjectMapper mapper = new ObjectMapper();
-        //PointDTO point = new PointDTO();
         try {
             return mapper.readValue(content, PointDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+    public boolean equals(PointDTO pointDTO){
+        boolean result = false;
+
+        if(this.lat == pointDTO.getLat() &
+           this.lon == pointDTO.getLon() &
+           this.time == pointDTO.getTime() &
+           this.bearing == pointDTO.getBearing() &
+           this.speed == pointDTO.getSpeed() &
+           this.autoId.equals(pointDTO.getAutoId()))
+               result = true;
+      return result;
     }
 
 }

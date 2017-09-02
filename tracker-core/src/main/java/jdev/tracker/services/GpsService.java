@@ -59,9 +59,9 @@ class GpsService {
             point.setLon(coordinate.getLongitude()); // долгота
 
             /* Вычисляем азимут */
-            point.setBearing(PointCalculate.getBearing(previousPoint, point));
+            point.setBearing(PointCalculate.calculateBearing(previousPoint, point));
             /* Вычисляем скорость */
-            point.setSpeed(PointCalculate.getSpeed(previousPoint, point));
+            point.setSpeed(PointCalculate.calculateSpeed(previousPoint, point));
             try {
                 gpsQueue.put(point); // помещаем точку в очередь сервиса GPS
                 log.info("GpsService generate point: " + point.toString());

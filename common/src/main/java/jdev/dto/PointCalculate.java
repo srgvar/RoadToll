@@ -16,7 +16,7 @@ public class PointCalculate {
      * @param point2 -  конечная точка
      * @return расстояние между точками в метрах
      */
- static double getDistance(PointDTO point1, PointDTO point2){
+ static double calculateDistance(PointDTO point1, PointDTO point2){
      double lat1 = toRadians(point1.getLat());
      double lat2 = toRadians(point2.getLat());
      double lon1 = toRadians(point1.getLon());
@@ -39,7 +39,7 @@ public class PointCalculate {
      * @param point2 -  конечная точка
      * @return знаачение азимута в градусах
      */
- public static double getBearing(PointDTO point1, PointDTO point2){
+ public static double calculateBearing(PointDTO point1, PointDTO point2){
      // Азимут
      double lat1 = toRadians(point1.getLat());
      double lat2 = toRadians(point2.getLat());
@@ -64,9 +64,9 @@ public class PointCalculate {
      *  посекундного получения информации для
      *  грузовика - вполне приемлемо :)
      **/
- public static double getSpeed(PointDTO point1, PointDTO point2){
+ public static double calculateSpeed(PointDTO point1, PointDTO point2){
      // Скорость
-     return getDistance(point1, point2) / (point2.getTime()/1000 - point1.getTime()/1000);
+     return calculateDistance(point1, point2) / (point2.getTime()/1000 - point1.getTime()/1000);
  }
 
 }

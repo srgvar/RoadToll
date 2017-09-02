@@ -21,11 +21,11 @@ public class ServerTest {
         PointDTO point = new PointDTO();
         ArrayList<PointDTO> points = new ArrayList<>();
         point.setTime(System.currentTimeMillis());
-        point.setLat(10L);
-        point.setLon(20L);
+        point.setLat(10);
+        point.setLon(20);
         point.setAutoId("q987wer");
-        point.setLat(50L);
-        point.setLon(150L);
+        point.setLat(50);
+        point.setLon(150);
         point.setAutoId("z456xcv");
         point.setBearing(90);
         point.setSpeed(100);
