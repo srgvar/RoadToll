@@ -5,73 +5,38 @@ package jdev.server;
  */
 
 import jdev.dto.PointDTO;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.Test;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import static org.junit.Assert.assertTrue;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class ServerTest {
+    private final String testStrings[] =
+            {"\"lat\":56.",
+                    "\"lon\":84.",
+                    "\"bearing\":99.",
+                    "\"speed\":111.",
+                    "\"autoId\":\"e070ao\"",
+                    "\"time\":"};
+
     @Test
-    public void testServer() {
-        System.out.println("Server-core tests...");
-        PointDTO point = new PointDTO();
-        ArrayList<PointDTO> points = new ArrayList<>();
-        point.setTime(System.currentTimeMillis());
-        point.setLat(10);
-        point.setLon(20);
-        point.setAutoId("q987wer");
-        point.setLat(50);
-        point.setLon(150);
-        point.setAutoId("z456xcv");
-        point.setBearing(90);
-        point.setSpeed(100);
-        System.out.println(point.toString());
-        System.out.println(point.toJson());
+    public void testPointDTO() {
+        PointDTO p1 = new PointDTO();
+        p1.setLat(56.49771);
+        p1.setLon(84.97437);
+        p1.setAutoId("e070ao");
+        long currentTime = System.currentTimeMillis();
+        p1.setTime(currentTime);
+        p1.setSpeed(111);
+        p1.setBearing(99);
 
-
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:9090/tracker";
-
-        points.add(point);
-        PointDTO point1 = new PointDTO(point.toJson());
-        point1.setSpeed(2000);
-        points.add(point1);
-
-        //restTemplate.postForEntity()
-        try {
-            HttpEntity<PointDTO> requestEntity = new HttpEntity<>(point1, getHeaders());
-
-            System.out.println("ent = " + requestEntity);
-            ResponseEntity<?> r = restTemplate.exchange(url, HttpMethod.POST, requestEntity, PointDTO.class);
-
-
-            System.out.println("Response Entity " + r);
-            if (r.getStatusCode() == HttpStatus.CREATED) {
-                System.out.println("On server created POINT: " + point1);
-            }
-            else{
-                System.out.println("Error on server!!!" + r.getStatusCodeValue());
-            }
-        } catch(Exception e){
-            // System.out.println(r);
-            System.out.println("Error " + e.getMessage());
-            e.printStackTrace();
+        // Тест работы сеттеров и преобразования в json-строку
+        String json = p1.toJson();
+        for (String testString : testStrings) {
+            assertTrue(json.contains(testString));
         }
-    }
-
-    private static HttpHeaders getHeaders(){
-        String plainCredentials="tracker:tracker";
-        String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic " + base64Credentials);
-        //headers.add("Authorization", "test:test");
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
-        return headers;
     }
 }
 

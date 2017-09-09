@@ -17,25 +17,30 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 @Service
 @EnableScheduling
-class DataSaveService {
+public class DataSaveService {
 
 
     /** Очередь сервиса харнения */
-    static final BlockingDeque<PointDTO> saveQueue =  new LinkedBlockingDeque<>(300);
+    private static final BlockingDeque<PointDTO> saveQueue =  new LinkedBlockingDeque<>(300);
     // Логгер сервиса хранения
     private static final Logger log = LoggerFactory.getLogger(DataSaveService.class);
-    // Сервис GPS
-    private static GpsService gps;
-    //protected static BlockingDeque<PointDTO> gpsQueue;
 
-
-    @Scheduled(cron = "${gpsSchedule}") // Используем расписание сервиса GPS
-    void put() throws InterruptedException {
+    /* Используем расписание сервиса GPS */
+    @Scheduled(cron = "${gpsSchedule}")
+    public void put()  {
         PointDTO point;
-        point = GpsService.gpsQueue.take(); // Получаем точку от сервиса GPS
-        log.info(System.currentTimeMillis() + " DataSaveService " + point.toString()); //500, TimeUnit.MILLISECONDS));
-        /* Сохраняем информацию о точке - в нашем случае
-         * помещаем в очередь сервиса хранения */
-        saveQueue.put(point);
+        try {
+            point = GpsService.gpsQueue.take(); // Получаем точку от сервиса GPS
+            log.info(System.currentTimeMillis() + " DataSaveService " + point.toString()); //500, TimeUnit.MILLISECONDS));
+            /* Сохраняем информацию о точке - в нашем случае
+            * помещаем в очередь сервиса хранения */
+            saveQueue.put(point);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static BlockingDeque<PointDTO> getSaveQueue() {
+        return saveQueue;
     }
 }

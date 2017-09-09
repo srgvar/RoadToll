@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Created by srgva on 23.07.2017.
  */
 @Service
-class GpsService {
+public class GpsService {
 
     @Value("${kmlFile}")
     private String kmlFileName; //имя файла с координатами - в файле roadtoll.propertis
@@ -44,12 +45,12 @@ class GpsService {
     @PostConstruct
     private void init(){
         // получаем список координат
-        coordinates = getCoordinates();
+        coordinates = readCoordinates(kmlFileName);
     }
 
     /** формирование точки и помещение её в очередь сервиса GPS*/
     @Scheduled(cron = "${gpsSchedule}") //Шедулер сервиса GPS
-    void put() {
+    public void put() {
         PointDTO point = new PointDTO(); // новая точка
         point.setTime(System.currentTimeMillis()); // текущее время
         point.setAutoId(autoId); // Номер авто
@@ -80,9 +81,9 @@ class GpsService {
     }
 
     /** Читаем список координат из kml - файла */
-    private List<Coordinate> getCoordinates() {
+    public List<Coordinate> readCoordinates(String kmlFileName) {
 
-        File file = new File(kmlFileName); // файл
+        File file = new File(new File("").getAbsolutePath()+kmlFileName); // файл
         List <Coordinate> coordinates; // список координат
         final Kml kml = Kml.unmarshal(file); // начинаем разбор файла
 
@@ -103,5 +104,25 @@ class GpsService {
             }
         }
         return null; // возвращаем пустой список
+    }
+
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public LinkedBlockingDeque<PointDTO> getGpsQueue() {
+        return gpsQueue;
+    }
+
+    public String getAutoId() {
+        return autoId;
+    }
+
+    public void setAutoId(String autoId) {
+        this.autoId = autoId;
     }
 }
