@@ -14,18 +14,18 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
     /** Описание вида (html - страниц) сервера  */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("pages/home");
-        registry.addViewController("/home").setViewName("pages/home");
-        registry.addViewController("/login").setViewName("pages/login");
-        registry.addViewController("/admin").setViewName("pages/admin");
-        registry.addViewController("/routes").setViewName("pages/routes");
-        registry.addViewController("/routes/**").setViewName("pages/routeN");
-        registry.addViewController("/payments").setViewName("pages/payments");
-        registry.addViewController("/payments/**").setViewName("pages/paymentN");
-        registry.addViewController("/admin/registerClient").setViewName("pages/admin/regCli");
+        registry.addViewController("/").setViewName("pages\\home");
+        registry.addViewController("/home").setViewName("pages\\home");
+        registry.addViewController("/login").setViewName("pages\\login");
+        registry.addViewController("/admin").setViewName("pages\\admin");
+        registry.addViewController("/routes").setViewName("pages\\routes");
+        registry.addViewController("/routes/**").setViewName("pages\\routeN");
+        registry.addViewController("/payments").setViewName("pages\\payments");
+        registry.addViewController("/payments/**").setViewName("pages\\paymentN");
+        registry.addViewController("/admin/registerClient").setViewName("pages\\admin\\regCli");
         registry.addViewController("/admin/registerClient/**").setViewName("pages/admin/regCliN");
         registry.addViewController("/admin/registerManager").setViewName("pages/admin/regMan");
-        registry.addViewController("/admin/registerManager/**").setViewName("pages/admin/regManN");
+        registry.addViewController("/admin/registerManager/**").setViewName("pages\\admin\\regManN");
         registry.addViewController("/error").setViewName("error");
     }
     /** ресурсы css, img, ... */

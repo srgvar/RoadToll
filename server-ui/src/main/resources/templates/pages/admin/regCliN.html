@@ -4,7 +4,7 @@
         <title> Регистрация клиентов </title>
     </head>
     <body bgcolor="#e0e0e0" background="/res/img/bg.png">
-        <h1 th:inline="text">Потльзователь: [[${#httpServletRequest.remoteUser}]]</h1>
+        <h1 th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</h1>
         <h1 th:inline="text">Запрос: [[${#httpServletRequest.getRequestURI()}]] </h1>
         <p> <a th:href="@{/admin/registerClient}"> Вернуться </a></p>
         <form th:action="@{/logout}" method="post">

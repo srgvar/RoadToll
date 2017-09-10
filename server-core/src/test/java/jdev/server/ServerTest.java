@@ -31,7 +31,6 @@ public class ServerTest {
         p1.setTime(currentTime);
         p1.setSpeed(111);
         p1.setBearing(99);
-
         // Тест работы сеттеров и преобразования в json-строку
         String json = p1.toJson();
         for (String testString : testStrings) {

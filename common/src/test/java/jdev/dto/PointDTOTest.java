@@ -1,7 +1,7 @@
 package jdev.dto;
 
-import org.junit.Assert;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -58,6 +58,7 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
             p1.setLon(testPoints[i][1]);
             p2.setLat(testPoints[i][2]);
             p2.setLon(testPoints[i][3]);
+
             assertEquals("Distance calculate error", testPoints[i][4], PointCalculate.calculateDistance(p1, p2),1.0);
             assertEquals("Bearing calculate error", testPoints[i][5], PointCalculate.calculateBearing(p1, p2),0.000000001);
         }
@@ -72,6 +73,7 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
         // p2.setLat(0.00899106829757);
             p2.setLon(0);
             p2.setTime(100000);
+
         assertEquals("Speed calculate error", 10, PointCalculate.calculateSpeed(p1, p2),1.0);
     }
 

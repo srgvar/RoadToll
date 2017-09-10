@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 // @Configuration
 
 @SpringBootApplication
-@ComponentScan("jdev.server.controllers")
+@ComponentScan({"jdev.server.controllers"})
 public class ServerCore {
     public static void main(String[] args) {
         SpringApplication.run(ServerCore.class, args);
