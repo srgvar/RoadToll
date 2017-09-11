@@ -25,6 +25,7 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
                              {77.1539, -120.398,  77.1804,  129.55,   2332669, 324.384112704}
                             };
 
+    // Тест работы сеттеров и преобразования в json-строку
     @Test
     public void PointDtoTest() throws Exception {
         String autoId = "a123bc";
@@ -37,7 +38,6 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
         p1.setSpeed(111);
         p1.setBearing(99);
 
-        // Тест работы сеттеров и преобразования в json-строку
         String json = p1.toJson();
         for (String testString : testStrings) {
             assertTrue(json.contains(testString));
@@ -48,11 +48,11 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
         assert(p1.equals(p2));
     }
 
+    // Тест calculateDistance и calculateBearing класса PointCalculate
     @Test
     public void PointCalculateTest() throws Exception {
         PointDTO p1 = new PointDTO(), p2 = new PointDTO();
 
-        // Тест calculateDistance и calculateBearing класса PointCalculate
        for(int i = 0; i < 3; i++) {
             p1.setLat(testPoints[i][0]);
             p1.setLon(testPoints[i][1]);

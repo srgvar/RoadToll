@@ -4,16 +4,20 @@ import jdev.dto.PointDTO;
 import jdev.tracker.services.DataSaveService;
 import jdev.tracker.services.DataSendService;
 import jdev.tracker.services.GpsService;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Arrays;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by srgva on 17.07.2017.
@@ -36,8 +40,6 @@ public class TrackerTest {
     @InjectMocks
     private DataSaveService dataSaveServiceMock = new DataSaveService();
 
-    //@Mock
-    //private RestTemplate restTemplateMock = new RestTemplate();
 
     @InjectMocks
     private DataSendService dataSendServiceMock = new DataSendService();
@@ -56,6 +58,9 @@ public class TrackerTest {
 
         dataSendServiceMock.setServerURL(SERVER_ADDRESS);
     }
+
+    /* Интеграционные тесты - необходим RESTFul-контроллер
+     * по адресу SERVER_ADDRESS */
 
 
     @Test
@@ -76,15 +81,35 @@ public class TrackerTest {
         for (String testString : testStrings) {
             assertTrue(json.contains(testString));
         }
+
+        // интеграционный тест для RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:9090/tracker";
+        HttpEntity<PointDTO> sendEntity = new HttpEntity<>(p1, getHeaders());
+
+        ResponseEntity<PointDTO> response = restTemplate.postForEntity(url,  sendEntity, PointDTO.class);
+        PointDTO pr1 = response.getBody();
+
+        assertEquals(HttpStatus.CREATED.value(), response.getStatusCodeValue());
+        assertTrue(p1.equals(pr1));
     }
 
-    /* Интеграционный тест - необходим RESTFul-контроллер
-    * по адресу SERVER_ADDRESS */
+    // интеграционный тест для треккера
     @Test
     public void integrationTest () throws IOException {
 
         dataSendServiceMock.dataSend();
         // Очередь сервиса хранения после передачи - пуста
         assertEquals(0, DataSaveService.getSaveQueue().size());
+    }
+
+
+    private static HttpHeaders getHeaders(){
+        String plainCredentials="tracker:tracker";
+        String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Credentials);
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+        return headers;
     }
 }

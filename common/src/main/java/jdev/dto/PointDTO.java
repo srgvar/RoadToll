@@ -132,8 +132,10 @@ public class PointDTO {
 
     public PointDTO fromJson(String content) {
         ObjectMapper mapper = new ObjectMapper();
+        PointDTO pointDTO = new PointDTO();
         try {
-            return mapper.readValue(content, PointDTO.class);
+            pointDTO =  mapper.readValue(content, PointDTO.class);
+            return pointDTO;
         } catch (IOException e) {
             e.printStackTrace();
         }
