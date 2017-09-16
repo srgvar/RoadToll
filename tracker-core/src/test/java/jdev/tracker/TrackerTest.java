@@ -9,15 +9,27 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.internal.stubbing.BaseStubbing;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.Arrays;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  * Created by srgva on 17.07.2017.
@@ -40,9 +52,14 @@ public class TrackerTest {
     @InjectMocks
     private DataSaveService dataSaveServiceMock = new DataSaveService();
 
+    @Mock
+    private RestTemplate restTemplateMock = new RestTemplate();
+    //RestTemplate restTemplateMock = mock(RestTemplate.class);
+
+
 
     @InjectMocks
-    private DataSendService dataSendServiceMock = new DataSendService();
+    private DataSendService dataSendServiceMock = new DataSendService(restTemplateMock);
 
     @Before
     public void init() {
@@ -58,10 +75,6 @@ public class TrackerTest {
 
         dataSendServiceMock.setServerURL(SERVER_ADDRESS);
     }
-
-    /* Интеграционные тесты - необходим RESTFul-контроллер
-     * по адресу SERVER_ADDRESS */
-
 
     @Test
     public void testPointDTO () throws IOException {
@@ -82,28 +95,34 @@ public class TrackerTest {
             assertTrue(json.contains(testString));
         }
 
-        // интеграционный тест для RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:9090/tracker";
+
+        // интеграционные тесты
+
         HttpEntity<PointDTO> sendEntity = new HttpEntity<>(p1, getHeaders());
-
-        ResponseEntity<PointDTO> response = restTemplate.postForEntity(url,  sendEntity, PointDTO.class);
+        // заглушка для RestTemplate
+        when(restTemplateMock.postForEntity(eq(SERVER_ADDRESS+"/tracker"), any(HttpEntity.class), eq(PointDTO.class))).thenAnswer(new Answer<ResponseEntity>() {
+            public ResponseEntity answer (InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                HttpEntity httpEntity = (HttpEntity)args[1];
+                PointDTO pointDto = (PointDTO)httpEntity.getBody();
+                HttpHeaders headers = getHeaders();
+                return new ResponseEntity <>(pointDto, headers, HttpStatus.CREATED);
+            }
+        });
+        // тест одиночного вызова RestTemplate
+        ResponseEntity<PointDTO> response = restTemplateMock.postForEntity(SERVER_ADDRESS+"/tracker",  sendEntity, PointDTO.class);
         PointDTO pr1 = response.getBody();
-
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCodeValue());
         assertTrue(p1.equals(pr1));
-    }
 
-    // интеграционный тест для треккера
-    @Test
-    public void integrationTest () throws IOException {
-
+        // Тест сервиса передачи данных на сервер
+        System.out.println("RestTemplate = " + restTemplateMock);
         dataSendServiceMock.dataSend();
         // Очередь сервиса хранения после передачи - пуста
         assertEquals(0, DataSaveService.getSaveQueue().size());
     }
 
-
+    // Http - заголовки для HttpEntity
     private static HttpHeaders getHeaders(){
         String plainCredentials="tracker:tracker";
         String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
@@ -112,4 +131,5 @@ public class TrackerTest {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
         return headers;
     }
+
 }

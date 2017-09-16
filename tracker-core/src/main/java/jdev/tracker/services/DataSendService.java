@@ -32,7 +32,7 @@ public class DataSendService {
 
     @Value("${serverURL}")
     private String serverURL;
-
+    // RestTemplate для обращения к RESTful-сервису сервера
     private RestTemplate restTemplate;// = new RestTemplate();
     public DataSendService(){}
     public DataSendService(@Autowired RestTemplate restTemplate){this.restTemplate = restTemplate;}
@@ -40,8 +40,6 @@ public class DataSendService {
     @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
     public void dataSend()  {
         String url = serverURL + "/tracker";
-        // RestTemplate для обращения к RESTful-сервису сервера
-         //RestTemplate restTemplate = new RestTemplate();
 
         // Передача данных на сервер
         // пока есть данные в очереди сервиса хранения
@@ -51,20 +49,19 @@ public class DataSendService {
             // формируем запрос к серверу
             // Отправляем данные на сервер и ожидаем результат
             try {
-                HttpEntity <PointDTO> sendEntity = new HttpEntity<>(point, getHeaders());
-                if(restTemplate == null)
+                HttpEntity<PointDTO> sendEntity = new HttpEntity<>(point, getHeaders());
+                if (restTemplate == null) {
                     restTemplate = new RestTemplate();
-                ResponseEntity<?> response = restTemplate.postForEntity(url,  sendEntity, PointDTO.class);
-
+                }
+                ResponseEntity<?> response = restTemplate.postForEntity(url, sendEntity, PointDTO.class);
                 if (response.getStatusCode() == HttpStatus.CREATED) {
                     log.info(" send to server success: " + DataSaveService.getSaveQueue().poll());
                 } else {
-                    log.error(" send to server FAILURE, error code: " +  response +
-                            " for point:" + point);
+                    log.error(" send to server FAILURE, error code: " + response + " for point:" + point);
                     break;
                 }
             }catch(Exception e){
-                log.error(" send to server ERROR: " + e.getMessage());
+                log.error(" send to server ERROR: " + e.toString());
             }
         }
     }
