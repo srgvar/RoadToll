@@ -38,6 +38,7 @@ import static org.springframework.http.HttpStatus.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TrackerTest {
     private final String SERVER_ADDRESS = "http://localhost:9090";
+    private final String URL_FOR_REST_TEST = SERVER_ADDRESS + "/tracker";
 
     private final String testStrings[] =
             {"\"lat\":56.",
@@ -54,9 +55,6 @@ public class TrackerTest {
 
     @Mock
     private RestTemplate restTemplateMock = new RestTemplate();
-    //RestTemplate restTemplateMock = mock(RestTemplate.class);
-
-
 
     @InjectMocks
     private DataSendService dataSendServiceMock = new DataSendService(restTemplateMock);
@@ -99,24 +97,22 @@ public class TrackerTest {
         // интеграционные тесты
 
         HttpEntity<PointDTO> sendEntity = new HttpEntity<>(p1, getHeaders());
+
         // заглушка для RestTemplate
-        when(restTemplateMock.postForEntity(eq(SERVER_ADDRESS+"/tracker"), any(HttpEntity.class), eq(PointDTO.class))).thenAnswer(new Answer<ResponseEntity>() {
-            public ResponseEntity answer (InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                HttpEntity httpEntity = (HttpEntity)args[1];
-                PointDTO pointDto = (PointDTO)httpEntity.getBody();
-                HttpHeaders headers = getHeaders();
-                return new ResponseEntity <>(pointDto, headers, HttpStatus.CREATED);
-            }
+        when(restTemplateMock.postForEntity(eq(URL_FOR_REST_TEST), any(HttpEntity.class), eq(PointDTO.class))).thenAnswer((Answer<ResponseEntity>) invocation -> {
+            Object[] args = invocation.getArguments();
+            HttpEntity httpEntity = (HttpEntity)args[1];
+            PointDTO pointDto = (PointDTO)httpEntity.getBody();
+            HttpHeaders headers = getHeaders();
+            return new ResponseEntity <>(pointDto, headers, HttpStatus.CREATED);
         });
         // тест одиночного вызова RestTemplate
-        ResponseEntity<PointDTO> response = restTemplateMock.postForEntity(SERVER_ADDRESS+"/tracker",  sendEntity, PointDTO.class);
+        ResponseEntity<PointDTO> response = restTemplateMock.postForEntity(URL_FOR_REST_TEST,  sendEntity, PointDTO.class);
         PointDTO pr1 = response.getBody();
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCodeValue());
         assertTrue(p1.equals(pr1));
 
         // Тест сервиса передачи данных на сервер
-        System.out.println("RestTemplate = " + restTemplateMock);
         dataSendServiceMock.dataSend();
         // Очередь сервиса хранения после передачи - пуста
         assertEquals(0, DataSaveService.getSaveQueue().size());
