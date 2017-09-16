@@ -103,8 +103,7 @@ public class TrackerTest {
             Object[] args = invocation.getArguments();
             HttpEntity httpEntity = (HttpEntity)args[1];
             PointDTO pointDto = (PointDTO)httpEntity.getBody();
-            HttpHeaders headers = getHeaders();
-            return new ResponseEntity <>(pointDto, headers, HttpStatus.CREATED);
+            return new ResponseEntity <>(pointDto, getHeaders(), HttpStatus.CREATED);
         });
         // тест одиночного вызова RestTemplate
         ResponseEntity<PointDTO> response = restTemplateMock.postForEntity(URL_FOR_REST_TEST,  sendEntity, PointDTO.class);
