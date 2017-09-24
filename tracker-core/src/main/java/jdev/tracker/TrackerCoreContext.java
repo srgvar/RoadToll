@@ -1,22 +1,58 @@
 package jdev.tracker;
 
+import jdev.dto.db.PointsDbRepository;
+import jdev.tracker.services.DataSaveService;
+import jdev.tracker.services.DataSendService;
+import jdev.tracker.services.GpsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by srgva on 21.07.2017.
  */
+@SpringBootApplication
 @Configuration
 @EnableScheduling
-@PropertySource("classpath:/roadtoll.properties")
-@ComponentScan("jdev.tracker.services")
-class TrackerCoreContext {
+@EnableJpaRepositories("jdev.dto")
+@EntityScan(basePackageClasses = jdev.dto.PointDTO.class)
+@PropertySource("classpath:/application.properties")
+// @ComponentScan("jdev.tracker.services")
+// @EnableAutoConfiguration
+public class TrackerCoreContext {
 
+   @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Autowired
+    public PointsDbRepository pointsDbRepository;
+
+   @Bean
+   public GpsService gpsService(){
+       return new GpsService();
+   }
+
+   @Bean
+   public DataSaveService dataSaveService(){
+      return new DataSaveService(pointsDbRepository);
+   }
+
+   @Bean
+   public DataSendService dataSendService(){
+       return new DataSendService();
+   }
 
     // Шедулер для запуска сервисов
     @Bean

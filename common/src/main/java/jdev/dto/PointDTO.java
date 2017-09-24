@@ -6,27 +6,46 @@ package jdev.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.objects.annotations.Getter;
 
 import java.io.IOException;
 
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.AUTO;
+
+@Entity
+@Table(name = "points")
 public class PointDTO {
-    /**
-     * Текущие координаты:
-     */
+
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    @JoinColumn(name = "id", nullable = false)
+    private Long id;
 
     @JsonProperty()
+    @Column(name = "lat")
     private double lat; // широта
-    @JsonProperty()
-    private double lon; // долгота
-    @JsonProperty()
-    private double bearing; // азимут
-    @JsonProperty()
-    private double speed; //мгновенная скорость
-    @JsonProperty()
-    private String autoId; // регистрационный номер автомобиля
-    @JsonProperty()
-    private long time; // текущее время
 
+    @JsonProperty()
+    @Column(name = "lon")
+    private double lon; // долгота
+
+    @JsonProperty()
+    @Column(name = "bearing")
+    private double bearing; // азимут
+
+    @JsonProperty()
+    @Column(name = "speed")
+    private double speed; //мгновенная скорость
+
+    @JsonProperty()
+    @Column(name = "autoid")
+    private String autoId; // регистрационный номер автомобиля
+
+    @JsonProperty()
+    @Column(name = "time")
+    private long time; // текущее время
 
     public PointDTO() {
 
@@ -46,7 +65,12 @@ public class PointDTO {
 
     /**
      * getters и setters для полей lat, lon, autoId, time
+     *
      */
+    public Long getId(){return id;}
+
+    public void setId(Long id){this.id = id;}
+
     public double getLat() {
         return lat;
     }
@@ -64,7 +88,7 @@ public class PointDTO {
         this.lon = lon;
     }
 
-    String getAutoId() {
+    public String getAutoId() {
         return autoId;
     }
 
