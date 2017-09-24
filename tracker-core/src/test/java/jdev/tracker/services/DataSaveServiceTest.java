@@ -16,6 +16,9 @@ public class DataSaveServiceTest {
     @InjectMocks
     private static final DataSaveService dataSaveServiceMock = new DataSaveService();
 
+
+    // TODO ***** Изменить тест для работы с СУБД *****
+
     @Test
     public void put() throws Exception {
         gpsMock.setAutoId("save123");

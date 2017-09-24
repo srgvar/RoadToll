@@ -38,7 +38,6 @@ import static org.springframework.http.HttpStatus.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TrackerTest {
     private final String SERVER_ADDRESS = "http://localhost:9090";
-    private final String URL_FOR_REST_TEST = SERVER_ADDRESS + "/tracker";
 
     private final String testStrings[] =
             {"\"lat\":56.",
@@ -99,6 +98,7 @@ public class TrackerTest {
         HttpEntity<PointDTO> sendEntity = new HttpEntity<>(p1, getHeaders());
 
         // заглушка для RestTemplate
+        String URL_FOR_REST_TEST = SERVER_ADDRESS + "/tracker";
         when(restTemplateMock.postForEntity(eq(URL_FOR_REST_TEST), any(HttpEntity.class), eq(PointDTO.class))).thenAnswer((Answer<ResponseEntity>) invocation -> {
             Object[] args = invocation.getArguments();
             HttpEntity httpEntity = (HttpEntity)args[1];

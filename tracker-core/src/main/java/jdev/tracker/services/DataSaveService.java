@@ -28,8 +28,6 @@ public class DataSaveService {
     // Логгер сервиса хранения
     private static final Logger log = LoggerFactory.getLogger(DataSaveService.class);
 
-    private List<PointDTO> all;
-
     private PointsDbRepository pointsDbRepository;
 
     public DataSaveService(){}
@@ -49,12 +47,12 @@ public class DataSaveService {
     public void put()  {
         PointDTO point, savedPoint;
 
-        all = (List<PointDTO>) pointsDbRepository.findAll();
+        List<PointDTO> all = (List<PointDTO>) pointsDbRepository.findAll();
 
-        if(all==null){
+        if(all ==null){
             log.info("NO RECORDS");
         } else {
-            all.stream().forEach(PointDTO -> log.info(PointDTO.toString()));
+            all.forEach(PointDTO -> log.info(PointDTO.toString()));
 
         }
 
