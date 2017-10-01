@@ -53,6 +53,8 @@ public class PointCalculate {
           if (x < 0) bearing = bearing + 180;
             bearing = -toRadians(((bearing + 180) % 360) - 180);
             bearing = toDegrees(bearing - (2 * Math.PI * floor(bearing/(2 * Math.PI))));
+            if (bearing == Double.NaN)
+                bearing = 0.0;
           return bearing;
 
  }

@@ -20,7 +20,7 @@ public class PointDTO {
 
     @Id
     @GeneratedValue(strategy = AUTO)
-    @JoinColumn(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @JsonProperty()
@@ -156,7 +156,7 @@ public class PointDTO {
 
     public PointDTO fromJson(String content) {
         ObjectMapper mapper = new ObjectMapper();
-        PointDTO pointDTO = new PointDTO();
+        PointDTO pointDTO; // = new PointDTO();
         try {
             pointDTO =  mapper.readValue(content, PointDTO.class);
             return pointDTO;
@@ -165,17 +165,13 @@ public class PointDTO {
         }
         return null;
     }
-    public boolean equals(PointDTO pointDTO){
-        boolean result = false;
 
-        if(this.lat == pointDTO.getLat() &
-           this.lon == pointDTO.getLon() &
-           this.time == pointDTO.getTime() &
-           this.bearing == pointDTO.getBearing() &
-           this.speed == pointDTO.getSpeed() &
-           this.autoId.equals(pointDTO.getAutoId()))
-               result = true;
-      return result;
+    public boolean equals(PointDTO pointDTO){
+
+        return (this.autoId.equals(pointDTO.getAutoId()) &&
+                this.time == pointDTO.getTime() &&
+                this.lat == pointDTO.getLat() &&
+           this.lon == pointDTO.getLon());
     }
 
 }

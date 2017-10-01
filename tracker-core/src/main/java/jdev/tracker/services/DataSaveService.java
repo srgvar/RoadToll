@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
@@ -19,62 +20,49 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Сервис хранения данных
  */
 @Service
-@EnableScheduling
+//@EnableScheduling
+@Transactional
 public class DataSaveService {
 
-
-    /** Очередь сервиса харнения */
-    private static final BlockingDeque<PointDTO> saveQueue =  new LinkedBlockingDeque<>(300);
     // Логгер сервиса хранения
     private static final Logger log = LoggerFactory.getLogger(DataSaveService.class);
 
+    // Интерфейс репозитория
     private PointsDbRepository pointsDbRepository;
+    // Конструктор по умолчанию
+    //public DataSaveService(){}
 
-    public DataSaveService(){}
-
-
-    public DataSaveService(PointsDbRepository pointsDbRepository){
+    // Конструктор с инициализацией репозитория
+    public DataSaveService(@Autowired PointsDbRepository pointsDbRepository){
        this.pointsDbRepository = pointsDbRepository;
     }
 
-
-
-
-
-
     /* Используем расписание сервиса GPS */
-    @Scheduled(cron = "${gpsSchedule}")
-    public void put()  {
-        PointDTO point, savedPoint;
+    @Scheduled(cron = "${saveSchedule}")
+    public void saveToDb()  {
+        PointDTO point, savedPoint; // = new PointDTO();
+         //pointsDbRepository.;
+        point = GpsService.gpsQueue.peek(); // Получаем точку от сервиса GPS
+        if(!(point==null)) {
+            try {
 
-        List<PointDTO> all = (List<PointDTO>) pointsDbRepository.findAll();
-
-        if(all ==null){
-            log.info("NO RECORDS");
-        } else {
-            all.forEach(PointDTO -> log.info(PointDTO.toString()));
-
-        }
-
-        try {
-            point = GpsService.gpsQueue.take(); // Получаем точку от сервиса GPS
-            log.info(System.currentTimeMillis() + " DataSaveService " + point.toString()); //500, TimeUnit.MILLISECONDS));
-            /* Сохраняем информацию о точке - в нашем случае
-            * помещаем в очередь сервиса хранения */
-
-            savedPoint = pointsDbRepository.save(point);
-            if(point.equals(savedPoint)){
-                saveQueue.put(point);
-            }
-
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            /* Сохраняем информацию о точке в БД */
+                savedPoint = pointsDbRepository.save(point);
+                //
+                if (point.equals(savedPoint)) {
+                    log.info(" save to database point: " + GpsService.gpsQueue.take());
+                } else {
+                    log.error(" ERROR saving point: " + point);
+                }
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+            } //try
+        }//if
     }
 
-    public static BlockingDeque<PointDTO> getSaveQueue() {
-        return saveQueue;
+    public PointsDbRepository getPointsDbRepository() {
+        return pointsDbRepository;
     }
 
 }

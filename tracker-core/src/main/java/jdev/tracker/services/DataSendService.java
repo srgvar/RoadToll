@@ -1,6 +1,7 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
+import jdev.dto.db.PointsDbRepository;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,21 +11,19 @@ import org.springframework.http.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-
-//import org.apache.tomcat.jni.SSLContext;
-//import org.apache.http.conn.ssl.*;
-//import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-//import javax.net.ssl.SSLContext;
+import java.util.List;
 
 
 /**
  * Created by srgva on 23.07.2017.
  */
 @Service
-@EnableScheduling
+//@EnableScheduling
+//@Transactional
 public class DataSendService {
 
     /** Логгер сервиса передачи */
@@ -33,17 +32,28 @@ public class DataSendService {
     @Value("${serverURL}")
     private String serverURL;
     // RestTemplate для обращения к RESTful-сервису сервера
+    //@Autowired
     private RestTemplate restTemplate;// = new RestTemplate();
-    public DataSendService(){}
-    public DataSendService(@Autowired RestTemplate restTemplate){this.restTemplate = restTemplate;}
+    //@Autowired
+    private PointsDbRepository pointsDbRepository;
+    //public DataSendService(){}
+
+    public DataSendService(@Autowired PointsDbRepository pointsDbRepository){
+       this.pointsDbRepository = pointsDbRepository;
+    }
+
+    /*public DataSendService(RestTemplate restTemplate, PointsDbRepository pointsDbRepository, ){
+        this.restTemplate = restTemplate;
+        this.pointsDbRepository = pointsDbRepository;
+    }*/
 
     @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
-    public void dataSend()  {
+    public void sendToServer()  {
         String url = serverURL + "/tracker";
 
         // Передача данных на сервер
         // пока есть данные в очереди сервиса хранения
-        for(PointDTO point: DataSaveService.getSaveQueue()){
+        for(PointDTO point : pointsDbRepository.findAll() ){
             // Передаем данные точки на сервер
             // для каждой точки из очереди сервиса хранения
             // формируем запрос к серверу
@@ -54,10 +64,13 @@ public class DataSendService {
                     restTemplate = new RestTemplate();
                 }
                 ResponseEntity<?> response = restTemplate.postForEntity(url, sendEntity, PointDTO.class);
-                if (response.getStatusCode() == HttpStatus.CREATED) {
-                    log.info(" send to server success: " + DataSaveService.getSaveQueue().poll());
+
+                if ((response.getStatusCode() == HttpStatus.CREATED) &
+                        (point.equals((PointDTO)response.getBody()))) {
+                    pointsDbRepository.delete(point);
+                    log.info(" send to server success: " + response.getBody());
                 } else {
-                    log.error(" send to server FAILURE, error code: " + response + " for point:" + point);
+                    log.error(" send to server FAILURE, error code: " + response);
                     break;
                 }
             }catch(Exception e){
@@ -82,5 +95,13 @@ public class DataSendService {
 
     public String getServerURL() {
         return serverURL;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public RestTemplate getRestTemplate() {
+        return restTemplate;
     }
 }

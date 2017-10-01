@@ -1,26 +1,39 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
+import jdev.dto.db.PointsDbRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataSaveServiceTest {
+
     @InjectMocks
     private static final GpsService gpsMock = new GpsService();
+
+    @Mock
+    private PointsDbRepository pointsDbRepositoryMock;
+
     @InjectMocks
-    private static final DataSaveService dataSaveServiceMock = new DataSaveService();
+    private final DataSaveService dataSaveServiceMock = new DataSaveService(pointsDbRepositoryMock);
+    private PointDTO pointDTO;
+    private PointDTO invocation;
+    private PointDTO pointDTO1;
 
-
-    // TODO ***** Изменить тест для работы с СУБД *****
 
     @Test
-    public void put() throws Exception {
+    public void saveFromGpsQueueToDatabase() throws Exception {
         gpsMock.setAutoId("save123");
         gpsMock.setCoordinates(gpsMock.readCoordinates(".\\\\resource\\\\tracks\\\\10158.kml"));
         assertNotNull(gpsMock.getCoordinates());
@@ -32,16 +45,19 @@ public class DataSaveServiceTest {
         assertEquals(10, gpsMock.getGpsQueue().size());
         assertEquals(816, gpsMock.getCoordinates().size());
 
+        // Заглушка для операции записи в БД
+        when(pointsDbRepositoryMock.save(any(PointDTO.class))).thenAnswer((Answer<PointDTO>) invocation -> {
+            Object args[] =  invocation.getArguments();
+            PointDTO point;// = new PointDTO();
+                    point = (PointDTO) args[0];
+            return point;
+        });
+
         for(PointDTO point : gpsMock.getGpsQueue()){
-            dataSaveServiceMock.put();
+            dataSaveServiceMock.saveToDb();
         }
-        //  Данные из очереди сервиса GPS перемещены в очередь сервиса хранения
-            assertEquals(10, DataSaveService.getSaveQueue().size());
+
         // Очердь сервиса GPS пуста
             assertEquals(0, gpsMock.getGpsQueue().size());
-            DataSaveService.getSaveQueue().clear();
-
     }
-
-
 }

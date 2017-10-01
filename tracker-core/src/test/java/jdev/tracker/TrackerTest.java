@@ -1,6 +1,7 @@
 package jdev.tracker;
 
 import jdev.dto.PointDTO;
+import jdev.dto.db.PointsDbRepository;
 import jdev.tracker.services.DataSaveService;
 import jdev.tracker.services.DataSendService;
 import jdev.tracker.services.GpsService;
@@ -10,31 +11,25 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.stubbing.BaseStubbing;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.Arrays;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.*;
 
 /**
  * Created by srgva on 17.07.2017.
  */
-
+// TODO Реализовать интеграционный тест треккера с БД в памяти !!!
 @RunWith(MockitoJUnitRunner.class)
 public class TrackerTest {
     private final String SERVER_ADDRESS = "http://localhost:9090";
@@ -47,16 +42,20 @@ public class TrackerTest {
                     "\"autoId\":\"e070ao\"",
                     "\"time\":"};
 
-    @InjectMocks
-    private GpsService gpsMock = new GpsService();
-    @InjectMocks
-    private DataSaveService dataSaveServiceMock = new DataSaveService();
 
     @Mock
     private RestTemplate restTemplateMock = new RestTemplate();
 
+    @Mock
+    private PointsDbRepository pointsDbRepository;
+
     @InjectMocks
-    private DataSendService dataSendServiceMock = new DataSendService(restTemplateMock);
+    private GpsService gpsMock = new GpsService();
+    @InjectMocks
+    private DataSaveService dataSaveServiceMock = new DataSaveService(pointsDbRepository);
+
+    @InjectMocks
+    private DataSendService dataSendServiceMock = new DataSendService(pointsDbRepository);
 
     @Before
     public void init() {
@@ -65,9 +64,10 @@ public class TrackerTest {
         for(int i = 0; i < 10; i++) {
             gpsMock.put();
         }
+        dataSendServiceMock.setRestTemplate(restTemplateMock);
 
         for(PointDTO point : gpsMock.getGpsQueue()) {
-            dataSaveServiceMock.put();
+            dataSaveServiceMock.saveToDb();
         }
 
         dataSendServiceMock.setServerURL(SERVER_ADDRESS);
@@ -95,7 +95,7 @@ public class TrackerTest {
 
         // интеграционные тесты
 
-        HttpEntity<PointDTO> sendEntity = new HttpEntity<>(p1, getHeaders());
+        HttpEntity<PointDTO> sendEntity = new HttpEntity<>(p1, null /*getHeaders()*/);
 
         // заглушка для RestTemplate
         String URL_FOR_REST_TEST = SERVER_ADDRESS + "/tracker";
@@ -103,7 +103,7 @@ public class TrackerTest {
             Object[] args = invocation.getArguments();
             HttpEntity httpEntity = (HttpEntity)args[1];
             PointDTO point = (PointDTO)httpEntity.getBody();
-            return new ResponseEntity <>(point, getHeaders(), HttpStatus.CREATED);
+            return new ResponseEntity <>(point, null /*getHeaders()*/, HttpStatus.CREATED);
         });
 
         // тест одиночного вызова RestTemplate
@@ -113,12 +113,12 @@ public class TrackerTest {
         assertTrue(p1.equals(pr1));
 
         // Тест сервиса передачи данных на сервер
-        dataSendServiceMock.dataSend();
+        dataSendServiceMock.sendToServer();
         // Очередь сервиса хранения после передачи - пуста
-        assertEquals(0, DataSaveService.getSaveQueue().size());
+        //assertEquals(0, DataSaveService.getSaveQueue().size());
     }
 
-    // Http - заголовки для HttpEntity
+    /* Http - заголовки для HttpEntity
     private static HttpHeaders getHeaders(){
         String plainCredentials="tracker:tracker";
         String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
@@ -126,6 +126,6 @@ public class TrackerTest {
         headers.add("Authorization", "Basic " + base64Credentials);
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
         return headers;
-    }
+    }*/
 
 }

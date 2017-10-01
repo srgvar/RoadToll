@@ -20,10 +20,10 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class GpsService {
 
     @Value("${kmlFile}")
-    private String kmlFileName; //имя файла с координатами - в файле roadtoll.propertis
+    private String kmlFileName; //имя файла с координатами - в файле application.properties
 
     @Value("${autoId}")
-    private String autoId; // номер авто - в файле roadtoll.propertis
+    private String autoId; // номер авто - в файле application.properties
 
     /** Логгер сервиса GPS */
     private static final Logger log = LoggerFactory.getLogger(GpsService.class);
@@ -38,7 +38,7 @@ public class GpsService {
     * и для чтения сервисом хранения */
     static final LinkedBlockingDeque<PointDTO> gpsQueue = new LinkedBlockingDeque<>(100);
 
-
+    public GpsService(){}
     /** Инициализация сервиса:
      * получаение списка координат из файла и
      */
@@ -65,7 +65,7 @@ public class GpsService {
             point.setSpeed(PointCalculate.calculateSpeed(previousPoint, point));
             try {
                 gpsQueue.put(point); // помещаем точку в очередь сервиса GPS
-                log.info("GpsService generate point: " + point.toString());
+                log.info(" generate point: " + point.toString());
             } catch (InterruptedException e) {
                 log.error(" exception: " + e.getMessage());
                 e.printStackTrace();
@@ -82,8 +82,8 @@ public class GpsService {
 
     /** Читаем список координат из kml - файла */
     public List<Coordinate> readCoordinates(String kmlFileName) {
-
         File file = new File(new File("").getAbsolutePath()+kmlFileName); // файл
+
         List <Coordinate> coordinates; // список координат
         final Kml kml = Kml.unmarshal(file); // начинаем разбор файла
 
