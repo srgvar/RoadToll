@@ -23,7 +23,6 @@ public class GpsServiceTest {
             gps.put();
         }
         assertEquals(10, gps.getGpsQueue().size());
-
             gps.getGpsQueue().clear();
     }
 }

@@ -1,23 +1,18 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
-import jdev.dto.db.PointsDbRepository;
+import jdev.dto.repo.PointsDbRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.OngoingStubbing;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -33,6 +28,7 @@ public class DataSendServiceTest {
 
     @Mock
     private RestTemplate restTemplateMock = new RestTemplate();
+
     @Mock
     private PointsDbRepository pointsDbRepositoryMock;
 
@@ -47,10 +43,8 @@ public class DataSendServiceTest {
     @Test
     public void dataSend() throws Exception {
          BlockingDeque<PointDTO> all = new LinkedBlockingDeque<>();
-        // List<PointDTO> all = new ArrayList<>();
 
         dataSendServiceMock.setRestTemplate(restTemplateMock);
-
 
         gpsMock.setAutoId("send123");
         gpsMock.setCoordinates(gpsMock.readCoordinates(".\\\\resource\\\\tracks\\\\10158.kml"));
@@ -73,9 +67,9 @@ public class DataSendServiceTest {
             return point;
         });
 
-        for(PointDTO point : gpsMock.getGpsQueue()) {
+        //for(PointDTO point : gpsMock.getGpsQueue()) {
             dataSaveServiceMock.saveToDb();
-        }
+        //}
         //  Данные из очереди сервиса GPS перемещены в очередь сервиса хранения
         //assertEquals(10, DataSaveService.getSaveQueue().size());
         // Очердь сервиса GPS пуста
@@ -93,10 +87,7 @@ public class DataSendServiceTest {
             if (args[0] != null) {
 
                 PointDTO point = (PointDTO) args[0];
-                //String email = (String) arguments[1];
-                //customer.setEmail(email);
                 all.remove(point);
-
             }
             return null;
         }).when(pointsDbRepositoryMock).delete(any(PointDTO.class));

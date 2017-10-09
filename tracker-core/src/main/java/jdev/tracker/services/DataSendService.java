@@ -1,21 +1,18 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
-import jdev.dto.db.PointsDbRepository;
+import jdev.dto.repo.PointsDbRepository;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -27,15 +24,15 @@ import java.util.List;
 public class DataSendService {
 
     /** Логгер сервиса передачи */
-    private final Logger log = LoggerFactory.getLogger(DataSendService.class);
+    private static final Logger log = LoggerFactory.getLogger(DataSendService.class);
 
     @Value("${serverURL}")
-    private String serverURL;
+    private  String serverURL;
     // RestTemplate для обращения к RESTful-сервису сервера
     //@Autowired
     private RestTemplate restTemplate;// = new RestTemplate();
     //@Autowired
-    private PointsDbRepository pointsDbRepository;
+    private  PointsDbRepository pointsDbRepository;
     //public DataSendService(){}
 
     public DataSendService(@Autowired PointsDbRepository pointsDbRepository){
@@ -89,16 +86,16 @@ public class DataSendService {
         return headers;
     }
 
-    public void setServerURL(String serverURL) {
-        this.serverURL = serverURL;
+    public  void setServerURL(String serverUrl) {
+        this.serverURL = serverUrl;
     }
 
     public String getServerURL() {
         return serverURL;
     }
 
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public void setRestTemplate(RestTemplate restTemplate1) {
+        this.restTemplate = restTemplate1;
     }
 
     public RestTemplate getRestTemplate() {

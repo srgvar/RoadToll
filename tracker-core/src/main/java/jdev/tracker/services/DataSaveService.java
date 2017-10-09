@@ -1,18 +1,17 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
-import jdev.dto.db.PointsDbRepository;
+import jdev.dto.repo.PointsDbRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import static jdev.tracker.services.GpsService.*;
 
 /**
  * Created by srgva on 23.07.2017.
@@ -21,7 +20,8 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 @Service
 //@EnableScheduling
-@Transactional
+//@Transactional
+//@SpringBootTest
 public class DataSaveService {
 
     // Логгер сервиса хранения
@@ -29,36 +29,37 @@ public class DataSaveService {
 
     // Интерфейс репозитория
     private PointsDbRepository pointsDbRepository;
-    // Конструктор по умолчанию
-    //public DataSaveService(){}
 
     // Конструктор с инициализацией репозитория
-    public DataSaveService(@Autowired PointsDbRepository pointsDbRepository){
-       this.pointsDbRepository = pointsDbRepository;
+    public DataSaveService(@Autowired PointsDbRepository dbRepository){
+       this.pointsDbRepository = dbRepository;
     }
 
     /* Используем расписание сервиса GPS */
     @Scheduled(cron = "${saveSchedule}")
     public void saveToDb()  {
-        PointDTO point, savedPoint; // = new PointDTO();
-         //pointsDbRepository.;
-        point = GpsService.gpsQueue.peek(); // Получаем точку от сервиса GPS
-        if(!(point==null)) {
+        PointDTO  savedPoint; // = new PointDTO();
+
+        for(PointDTO point : getGpsQueue()) {
             try {
 
             /* Сохраняем информацию о точке в БД */
-                savedPoint = pointsDbRepository.save(point);
-                //
-                if (point.equals(savedPoint)) {
-                    log.info(" save to database point: " + GpsService.gpsQueue.take());
-                } else {
-                    log.error(" ERROR saving point: " + point);
+                if (!(point == null)) {
+                    savedPoint = pointsDbRepository.save(point);
+                    //
+                    if (point.equals(savedPoint)) {
+                        log.info(" save to database point: " + gpsQueue.take());
+                    } else {
+                        log.error(" ERROR saving point: " + point);
+                    }
                 }
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-                e.printStackTrace();
-            } //try
-        }//if
+                } catch(InterruptedException e){
+                    log.error(e.getMessage());
+                    e.printStackTrace();
+                } //try
+
+            }//if
+
     }
 
     public PointsDbRepository getPointsDbRepository() {

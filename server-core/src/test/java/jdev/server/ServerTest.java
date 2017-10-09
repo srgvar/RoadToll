@@ -4,6 +4,7 @@ package jdev.server;
  * Created by srgva on 18.07.2017.
  */
 
+// TODO написать тест с БД в памяти
 import jdev.dto.PointDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;

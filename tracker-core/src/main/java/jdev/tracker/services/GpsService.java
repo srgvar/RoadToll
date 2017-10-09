@@ -110,11 +110,11 @@ public class GpsService {
         return coordinates;
     }
 
-    public void setCoordinates(List<Coordinate> coordinates) {
-        this.coordinates = coordinates;
+    public void setCoordinates(List<Coordinate> lCoordinates) {
+        coordinates = lCoordinates;
     }
 
-    public LinkedBlockingDeque<PointDTO> getGpsQueue() {
+    public static LinkedBlockingDeque<PointDTO> getGpsQueue() {
         return gpsQueue;
     }
 
@@ -122,7 +122,7 @@ public class GpsService {
         return autoId;
     }
 
-    public void setAutoId(String autoId) {
-        this.autoId = autoId;
+    public void setAutoId(String auto_Id) {
+        autoId = auto_Id;
     }
 }

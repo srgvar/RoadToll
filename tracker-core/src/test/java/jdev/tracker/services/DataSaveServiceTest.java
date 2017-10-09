@@ -1,14 +1,13 @@
 package jdev.tracker.services;
 
 import jdev.dto.PointDTO;
-import jdev.dto.db.PointsDbRepository;
+import jdev.dto.repo.PointsDbRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,10 +26,6 @@ public class DataSaveServiceTest {
 
     @InjectMocks
     private final DataSaveService dataSaveServiceMock = new DataSaveService(pointsDbRepositoryMock);
-    private PointDTO pointDTO;
-    private PointDTO invocation;
-    private PointDTO pointDTO1;
-
 
     @Test
     public void saveFromGpsQueueToDatabase() throws Exception {
@@ -53,9 +48,9 @@ public class DataSaveServiceTest {
             return point;
         });
 
-        for(PointDTO point : gpsMock.getGpsQueue()){
+        //for(PointDTO point : gpsMock.getGpsQueue()){
             dataSaveServiceMock.saveToDb();
-        }
+        //}
 
         // Очердь сервиса GPS пуста
             assertEquals(0, gpsMock.getGpsQueue().size());
