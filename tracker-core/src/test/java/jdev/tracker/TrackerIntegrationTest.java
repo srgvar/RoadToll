@@ -88,10 +88,11 @@ public class TrackerIntegrationTest {
         }
 
     // Интеграционный тест для треккера
-        List<Coordinate> coordinates = new ArrayList();
+        List<Coordinate> coordinates = new ArrayList<>();
         for( Double i = 1.0; i < 10.0; i++) {
          Double j = i/1000;
-            coordinates.add(new Coordinate(j.toString() + ", " + j.toString()));
+            coordinates.add(new Coordinate(j.toString() +
+                             ", " + j.toString()));
         }
         /*for(Coordinate c: coordinates)
             System.out.println(c.toString());*/
@@ -106,7 +107,7 @@ public class TrackerIntegrationTest {
 
         dataSaveService.saveToDb();
         // очередь сервиса хранения пуста
-        assertEquals(0, gpsService.getGpsQueue().size());
+        assertEquals(0, GpsService.getGpsQueue().size());
 
         List<PointDTO> allInDb = (List<PointDTO>)pointsDbRepository.findAll();
         assertEquals(9, allInDb.size());
@@ -133,16 +134,10 @@ public class TrackerIntegrationTest {
 
         // Тест сервиса передачи данных на сервер
         dataSendService.sendToServer();
-        // Очередь сервиса хранения после передачи - пуста
-        //assertEquals(0, DataSaveService.getSaveQueue().size());
-        // тест одиночного вызова RestTemplate
-        //ResponseEntity<PointDTO> response = restTemplateMock.postForEntity(URL_FOR_REST_TEST,  sendEntity, PointDTO.class);
-        //PointDTO pr1 = response.getBody();
-        //assertEquals(HttpStatus.CREATED.value(), response.getStatusCodeValue());
-        //assertTrue(p1.equals(pr1));
+        // Записей в локальной БД = 0 (все данные переданы на сервер)
+        allInDb = (List<PointDTO>)pointsDbRepository.findAll();
+        assertEquals(0, allInDb.size());
 
-
-        //DataSendService.sendToServer();
 
     }
 

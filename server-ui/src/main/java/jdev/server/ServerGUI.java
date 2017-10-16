@@ -1,6 +1,5 @@
 package jdev.server;
 
-import jdev.users.Role;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,9 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({"jdev.server.config"})
 
  class ServerGUI {
-    public static final Role ROOT = new Role(1,"ROOT");
-    public static final Role MANAGER = new Role(2, "MANAGER");
-    public static final Role USER = new Role(3,"USER");
 
    // public static final Role[] roles = {USER, MANAGER, ROOT};
 

@@ -2,8 +2,6 @@ package jdev.server.controllers;
 
 import jdev.dto.PointDTO;
 import jdev.dto.repo.PointsDbRepository;
-import jdev.users.repo.RolesRepository;
-import jdev.users.repo.UsersRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -22,13 +20,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TrackersControllerTest {
     @Mock
-    PointsDbRepository pointsDbRepositoryMock;
+    private PointsDbRepository pointsDbRepositoryMock;
     /*@Mock
     RolesRepository rolesRepositoryMock;
     @Mock
     UsersRepository usersRepositoryMock;*/
 
-    List<PointDTO> testList = new ArrayList<>();
+    private List<PointDTO> testList = new ArrayList<>();
 
 
     @Test
@@ -52,7 +50,7 @@ public class TrackersControllerTest {
             return point1;
         });
 
-        ResponseEntity r = tc.getPoint(point);
+        ResponseEntity r = tc.savePoint(point);
         assertEquals(HttpStatus.CREATED, r.getStatusCode());
         assertEquals(point, r.getBody());
     }
@@ -83,11 +81,9 @@ public class TrackersControllerTest {
 
         track = (tc.getTrack("test001",maxPointsTest)).getBody();
 
-        for(int i = 0; i < maxPointsTest; i++)
-            assertEquals(testList.get(i),track[i]);
-
+        for(int i = 0; i < maxPointsTest; i++) {
+            System.out.println(testList.get(i));
+            assertEquals(testList.get(i), track[i]);
+        }
     }
-
-
-
 }

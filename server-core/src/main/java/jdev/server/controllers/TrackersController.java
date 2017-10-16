@@ -6,7 +6,6 @@ package jdev.server.controllers;
 
 import jdev.dto.PointDTO;
 import jdev.dto.repo.PointsDbRepository;
-import jdev.users.repo.RolesRepository;
 import jdev.users.repo.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class TrackersController {
 
     private UsersRepository usersRepository;
 */
-    TrackersController(@Autowired PointsDbRepository pointsDbRepository){
+TrackersController(@Autowired PointsDbRepository pointsDbRepository){
         this.pointsDbRepository = pointsDbRepository;
 /*        this.rolesRepository = rolesRepository;
         this.usersRepository = usersRepository;
@@ -44,10 +43,9 @@ public class TrackersController {
 
     @RequestMapping(value = "/tracker", method = RequestMethod.POST,
          produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<PointDTO> getPoint(@RequestBody PointDTO point) {
+    public ResponseEntity<PointDTO> savePoint(@RequestBody PointDTO point) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("accept",MediaType.APPLICATION_JSON_UTF8_VALUE);
-
 
         PointDTO stored = pointsDbRepository.save(point);
         if(stored!=null) {
@@ -58,11 +56,10 @@ public class TrackersController {
             } else {
                 log.info(" error: " + point.toString()); // пишем в лог
                 return new ResponseEntity<>(stored, headers, HttpStatus.INTERNAL_SERVER_ERROR);
-
             }
 
         }
-        return new ResponseEntity<>(stored, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @RequestMapping(value = "/route", method = RequestMethod.GET)

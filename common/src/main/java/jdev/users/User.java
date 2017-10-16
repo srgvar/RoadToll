@@ -20,7 +20,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "role")
-    private Role role;
+    private String role;
 
     public String getUsername() {
         return username;
@@ -31,11 +31,11 @@ public class User {
     }
 
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
