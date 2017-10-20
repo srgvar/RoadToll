@@ -33,8 +33,6 @@ import static org.mockito.Mockito.when;
 /**
  * Created by srgva on 17.07.2017.
  */
-// TODO Реализовать интеграционный тест треккера с БД в памяти !!!
-// TODO ++++++ ДОБАВИТЬ в тесты проверки assert.......
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(

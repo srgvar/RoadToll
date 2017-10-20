@@ -4,9 +4,9 @@
         <title> Ошибка!!! </title>
     </head>
     <body bgcolor="#e0e0e0" background="/res/img/bg.png">
-        <h1 th:inline="text">Ошибка!!!</h1>
-        <p>Проверьте, возможно у вас нет прав на данную операцию</p>
-        <form th:action="@{/logout}" method="post">
+    <h1 inline="text">Ошибка!!!Пользователь: [[${#httpServletRequest.remoteUser}]]</h1>
+    <p>Проверьте, возможно у вас нет прав на данную операцию</p>
+        <form action="@{/logout}" method="post">
             <input type="submit" value="Выйти"/>
         </form>
     </body>
