@@ -18,24 +18,46 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = AUTO)
     @Column(name = "user_id")
-    private Long id;
-    @Column(name = "username", nullable = false, length = 40)
+    private Integer id;
+    @Column(name = "username", nullable = false, length = 20)
     private String username;
-    @Column(name = "password", nullable = false, length = 40)
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    @Column(name = "fullname", length = 60)
+    private String fullname;
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
     @Column(name = "enabled")
     private boolean enabled;
 
+    public User(){}
 
+    public User(String username){
+        this.username = username;
+        this.fullname = username;
+    }
 
+    public User(String username, String fullname){
+        this.username = username;
+        this.fullname = fullname;
+    }
 
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
+
         this.username = username;
     }
+
 
     public String getPassword() {
         return password;
@@ -45,11 +67,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Long getId () {
+    public Integer getId () {
         return id;
     }
 
-    public void setId (Long id) {
+    public void setId (Integer id) {
         this.id = id;
     }
 

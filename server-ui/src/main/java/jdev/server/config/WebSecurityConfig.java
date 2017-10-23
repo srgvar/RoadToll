@@ -25,7 +25,8 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan({"jdev.server.services"})
+@ComponentScan({"jdev.server.services",
+                "jdev.server.controllers"})
 @EnableAutoConfiguration
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {

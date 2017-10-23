@@ -25,7 +25,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableAutoConfiguration
 @EnableJpaRepositories({"jdev.dto", "jdev.users"})
-@ComponentScan({"jdev.server.services"})
+@ComponentScan({"jdev.server.services",
+                "jdev.server.controllers"})
+
 @EntityScan(basePackageClasses = {jdev.dto.PointDTO.class,
         jdev.users.User.class,
         jdev.users.UserRole.class})
@@ -34,7 +36,7 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("pages/home");
-        registry.addViewController("/home").setViewName("pages/home");
+        //registry.addViewController("/home").setViewName("pages/home");
         registry.addViewController("/login").setViewName("pages/login");
         registry.addViewController("/admin").setViewName("pages/admin");
         registry.addViewController("/routes").setViewName("pages/routes");
