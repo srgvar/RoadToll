@@ -11,5 +11,6 @@ public interface UsersRepository extends CrudRepository <User, Integer> {
 
     User findOneByUsername (String username);
     User findFirstById(Integer id);
+    Iterable<User> findAllByUsernameNotNullOrderByUsername();
 
 }

@@ -82,6 +82,10 @@ public class User implements Serializable {
     public void setEnabled (boolean enabled) {
         this.enabled = enabled;
     }
+
+    public boolean isNew(){
+        return (this.id == null);
+    }
 }
 
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title> Добавление нового клиента </title>
+
+    </head>
+    <body bgcolor="#e0e0e0" background="/res/img/bg.png">
+    <div th:with="user=${user}, successMessage=${successMessage}">
+
+        <p/>
+        <p/>
+        <form action="#" th:action="@{/admin/registerClient}" method="post">
+            <div align="center"><label> Имя (login) : <input type="text" name="username" path="username" /> </label></div>
+            <span class="error"><th:error.username path="username"/></span>
+            <div align="center"><label> Полное имя: <input type="text" name="fullname"/> </label></div>
+            <div align="center" th:text="${successMessage}" ></div>
+            <div align="center"><input type="submit" value="Добавить"/></div>
+        </form>
+
+        <p/>
+        <form action="/admin/registerClient" method="GET">
+            <div align="center"><input type="submit" value="Вернуться"/></div>
+        </form>
+    </div>
+    </body>
+</html>

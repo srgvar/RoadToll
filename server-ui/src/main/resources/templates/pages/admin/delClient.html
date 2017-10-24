@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Удаление клиента</title>
+</head>
+<body bgcolor="#e0e0e0" background="/res/img/bg.png">
+<h2>Удаляем клиента?</h2>
+<table>
+    <tbody>
+    <tr>
+        <td> Id </td>
+        <td th:text="${user.id}"></td>
+    </tr>
+    <tr>
+        <td> Имя </td>
+        <td th:text="${user.username}"></td>
+    </tr>
+    <tr>
+        <td> Полное имя </td>
+        <td th:text="${user.fullname}"></td>
+    </tr>
+    <tr>
+        <td> Разрешено </td>
+        <td th:text="${user.enabled}"></td>td>
+    </tr>
+    </tbody>
+</table>
+
+    <p/>
+    <table>
+        <tbody>
+        <td>
+            <form th:action="'/admin/registerClient/' + ${user.id} + '/del'" method="post">
+                <input type="submit" value="Удалить клиента"/>
+            </form>
+        </td>
+        <td>
+            <form action="/admin/registerClient">
+                <input type="submit" value=" к Списку клиентов "/>
+            </form>
+        </td>
+        </tbody>
+    </table>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Выйти"/>
+    </form>
+</body>
+</html>

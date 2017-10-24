@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title> Клиент </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body bgcolor="#e0e0e0" background="/res/img/bg.png">
+
+<h1> Клиент </h1>
+<form th:action="@{/admin/registerClient}" th:object="${user}" method="post">
+<table>
+	<tr>
+		<div th:if="${action}=='add'" >
+			<td>Login:</td>
+			<td><input type="text" th:field="*{username}"/></td>
+		</div>
+	</tr>
+	<tr>
+		<div th:if="${action}!='add'" >
+			<td>Login: </td>
+			<td><span th:text="*{username}"/></td>
+			<p> <input type="hidden" th:field="*{username}"/></p>
+		</div>
+
+	</tr>
+	<tr th:colspan="2">
+		<div th:text="${errorMsg}"></div>
+	</tr>
+	<tr>
+		<td>Полное имя:</td>
+		<td><input type="text" th:field="*{fullname}"/></td>
+	</tr>
+	<tr>
+		<td>Доступ:</td>
+		<td> <input type="checkbox" th:field="*{enabled}"/></td>
+	</tr>
+</table>
+	<p><input type="submit" value=" Сохранить "/></p>
+	<p> <input type="hidden" th:field="*{id}"/></p>
+</form>
+</body>
+</html>

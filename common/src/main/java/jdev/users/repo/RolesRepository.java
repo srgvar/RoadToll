@@ -13,9 +13,9 @@ import java.util.Set;
  */
 //@NoRepositoryBean
 @Repository
-public interface RolesRepository extends CrudRepository <UserRole, Long> {
+public interface RolesRepository extends CrudRepository <UserRole, Integer> {
 
     //List<UserRole> findAllByUser_id(Long user_id);
-    Set<UserRole> findAllByUser_id(Long user_id);
+    Set<UserRole> findAllByUser_id(Integer user_id);
 
 }

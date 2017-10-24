@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Road Toll</title>
     </head>
     <body bgcolor="#e0e0e0" background="/res/img/bg.png">
-        <h1 th:inline="text">Рады видеть Вас, [[${#httpServletRequest.remoteUser}]]!</h1>
+    <h1 th:inline="text"> Рады видеть Вас, [[${#httpServletRequest.remoteUser}]]!</h1>
         <h1>Чем решили заняться?</h1>
         <p>Поработать с  <a th:href="@{/payments}"> Payments </a></p>
         <p>Поработать с <a th:href="@{/routes}"> Routes </a></p>

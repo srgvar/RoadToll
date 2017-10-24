@@ -15,7 +15,7 @@ public class UserRole implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="role_id", unique = true, nullable = false)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,11 +42,11 @@ public class UserRole implements Serializable {
         this.role = role;
     }
 
-    public Long getRoleId () {
+    public Integer getRoleId () {
         return id;
     }
 
-    public void setRoleId (Long id) {
+    public void setRoleId (Integer id) {
         this.id = id;
     }
 

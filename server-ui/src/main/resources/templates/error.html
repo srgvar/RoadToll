@@ -1,13 +1,25 @@
+<%@ page session="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <title> Ошибка!!! </title>
-    </head>
-    <body bgcolor="#e0e0e0" background="/res/img/bg.png">
-    <h1 inline="text">Ошибка!!!Пользователь: [[${#httpServletRequest.remoteUser}]]</h1>
-    <p>Проверьте, возможно у вас нет прав на данную операцию</p>
-        <form action="@{/logout}" method="post">
-            <input type="submit" value="Выйти"/>
-        </form>
-    </body>
+<html lang="ru">
+
+
+<body>
+
+	<div class="container">
+
+		<h1>Error Page</h1>
+
+		<p>${exception.message}</p>
+		<!-- Exception: ${exception.message}.
+		  	<c:forEach items="${exception.stackTrace}" var="stackTrace"> 
+				${stackTrace} 
+			</c:forEach>
+	  	-->
+
+	</div>
+
+</body>
 </html>

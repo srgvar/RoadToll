@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.filter.DelegatingFilterProxy;
@@ -43,8 +44,8 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/routes/**").setViewName("pages/routeN");
         registry.addViewController("/payments").setViewName("pages/payments");
         registry.addViewController("/payments/**").setViewName("pages/paymentN");
-        registry.addViewController("/admin/registerClient").setViewName("pages/admin/regCli");
-        registry.addViewController("/admin/registerClient/**").setViewName("pages/admin/regCliN");
+        //registry.addViewController("/admin/registerClient").setViewName("pages/admin/regCli");
+        //registry.addViewController("/admin/registerClient/**").setViewName("pages/admin/client");
         registry.addViewController("/admin/registerManager").setViewName("pages/admin/regMan");
         registry.addViewController("/admin/registerManager/**").setViewName("pages/admin/regManN");
         registry.addViewController("/error").setViewName("error");
@@ -58,10 +59,10 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
 
-    @Autowired
+    //@Autowired
     public PointsDbRepository pointsDbRepository;
 
-    @Autowired
+    //@Autowired
     public RolesRepository rolesRepository;
 
 
