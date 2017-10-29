@@ -46,7 +46,7 @@ public class TrackerIntegrationTest {
                     "\"bearing\":99.",
                     "\"speed\":111.",
                     "\"autoId\":\"e070ao\"",
-                    "\"time\":"};
+                    "\"timeStamp\":"};
 
 
     @Autowired

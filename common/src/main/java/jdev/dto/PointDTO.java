@@ -52,14 +52,15 @@ public class PointDTO {
 
 
     public PointDTO(String json){
+        new PointDTO();
         PointDTO pointDTO = new PointDTO();
-        pointDTO = pointDTO.fromJson(json);
-        this.lat = pointDTO.lat;
-        this.lon = pointDTO.lon;
-        this.bearing = pointDTO.bearing;
-        this.speed = pointDTO.speed;
-        this.autoId = pointDTO.autoId;
-        this.timeStamp = pointDTO.timeStamp;
+        pointDTO = PointDTO.fromJson(json);
+        this.lat = pointDTO.getLat();
+        this.lon = pointDTO.getLon();
+        this.bearing = pointDTO.getBearing();
+        this.speed = pointDTO.getSpeed();
+        this.autoId = pointDTO.getAutoId();
+        this.timeStamp = pointDTO.getTimeStamp();
     }
 
     /**
@@ -119,7 +120,6 @@ public class PointDTO {
         this.speed = speed;
     }
 
-    public boolean isNew(){ return this.id == null;}
 
     /**
      * Преобразование в строку JSON используя ObjectMapper
@@ -155,11 +155,13 @@ public class PointDTO {
      */
 
 
-    public PointDTO fromJson(String content) {
+    public static PointDTO fromJson(String content) {
         ObjectMapper mapper = new ObjectMapper();
-        PointDTO pointDTO; // = new PointDTO();
+        //PointDTO pointDTO = new PointDTO();
         try {
-            pointDTO =  mapper.readValue(content, PointDTO.class);
+            PointDTO pointDTO = new PointDTO();
+            pointDTO = mapper.readValue(content, PointDTO.class);
+            System.out.println("fromJson ->" + pointDTO);
             return pointDTO;
         } catch (IOException e) {
             e.printStackTrace();

@@ -19,7 +19,7 @@ public class TrackerUITest {
                     "\"bearing\":99.",
                     "\"speed\":111.",
                     "\"autoId\":\"e070ao\"",
-                    "\"time\":"};
+                    "\"timeStamp\":"};
 
     @Test
     public void testPointDTO() {

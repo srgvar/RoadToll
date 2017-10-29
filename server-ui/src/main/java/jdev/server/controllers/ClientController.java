@@ -68,7 +68,7 @@ class ClientController {
                             Model model,
                             final RedirectAttributes redirectAttributes){
 
-         if(point.isNew()){
+         if(point.getId()==null){
              if(routesService.exist(point)){
                  model.addAttribute("error","Точка положения авто уже существует");
                  redirectAttributes.addAttribute("point", point);

@@ -16,7 +16,7 @@ private final String testStrings[] = {"\"lat\":56.",
                               "\"bearing\":99.",
                               "\"speed\":111.",
                               "\"autoId\":\"e070ao\"",
-                              "\"time\":"};
+                              "\"timeStamp\":"};
 
 /* тестовые значения координат, расстяния и азимута
                               широта 1 долгота1  широта 2 долгота 2 расстояние  азимут */
@@ -28,7 +28,7 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
     // Тест работы сеттеров и преобразования в json-строку
     @Test
     public void PointDtoTest() throws Exception {
-        String autoId = "a123bc";
+        String autoId = "e070ao";
         PointDTO p1 = new PointDTO();
         p1.setLat(56.49771);
         p1.setLon(84.97437);
@@ -42,10 +42,19 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
         for (String testString : testStrings) {
             assertTrue(json.contains(testString));
         }
+
+
         // Тест конструктора из json-строки
-        PointDTO p2 = new PointDTO(json);
+        PointDTO p2 = new PointDTO();
+                p2=PointDTO.fromJson(json);
+                PointDTO p3 = new PointDTO(json);
+        //p2 = p2.fromJson(json);
         //p2.setBearing(300);
-        assert(p1.equals(p2));
+        String jsonP2 = p2.toJson();
+        System.out.println(p1);
+        System.out.println(p2);
+        System.out.println(p3);
+        assertTrue(json.equals(jsonP2));
     }
 
     // Тест calculateDistance и calculateBearing класса PointCalculate
