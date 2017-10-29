@@ -62,13 +62,11 @@ public class DataSendService {
                 }
                 ResponseEntity<PointDTO> response = restTemplate.postForEntity(url, sendEntity, PointDTO.class);
 
-                if ((response.getStatusCode().value() == HttpStatus.CREATED.value()) &&
-                        point.equals((PointDTO) response.getBody())) {
+                if (response.getStatusCode() == HttpStatus.CREATED) {
                     pointsDbRepository.delete(point);
                     log.info(" send to server success: " + response.getBody());
                 } else {
                     log.error(" send to server FAILURE, error code: " + response);
-                    break;
                 }
             }catch(Exception e){
                 log.error(" send to server ERROR: " + e.toString());

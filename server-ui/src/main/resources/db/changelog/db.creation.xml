@@ -18,6 +18,7 @@
          CREATE UNIQUE INDEX points_id_uindex ON points (id);
          CREATE INDEX points_timestamp_index ON points (timestamp);
          CREATE INDEX points_autoid_index ON points (autoid);
+         CREATE UNIQUE INDEX points_autoid_timestamp_uindex ON points (autoid, timestamp);
         </sql>
 
     </changeSet>

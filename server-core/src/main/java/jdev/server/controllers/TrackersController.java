@@ -44,14 +44,16 @@ TrackersController(@Autowired PointsDbRepository pointsDbRepository){
 
     @RequestMapping(value = "/tracker", method = RequestMethod.POST,
          produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+
     public ResponseEntity<PointDTO> savePoint(@RequestBody PointDTO point) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("accept",MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         /* Проверка на наличие данного местоположения авто */
-        if(pointsDbRepository.findFirstByAutoIdAndTimeStamp(point.getAutoId(), point.getTimeStamp())!=null){
+        /*if(pointsDbRepository.findFirstByAutoIdAndTimeStamp(point.getAutoId(), point.getTimeStamp())!=null){
             return new ResponseEntity<>(point, headers, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+        }*/
 
         PointDTO stored = pointsDbRepository.save(point);
         if(stored!=null) {

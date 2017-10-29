@@ -31,8 +31,6 @@ public class TrackerCoreContext {
     }
 
 
-    //@Autowired
-    //public PointsDbRepository pointsDbRepository;
 
     // Шедулер для запуска сервисов
     @Bean

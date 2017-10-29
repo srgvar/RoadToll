@@ -168,12 +168,12 @@ public class PointDTO {
     }
 
     public boolean equals(PointDTO pointDTO){
-    // Транспортное средство находится в определенное время в определенной точке
-    // вне зависимости от скорости и начального азимута
+    // Транспортное средство может находиться в определенное время
+    // только в одном месте, вне зависимости от скорости
+    // и начального азимута (при современном уровне технического прогресса:)
+
        return ((this.autoId.equals(pointDTO.getAutoId())) &&
-                ( this.timeStamp == pointDTO.getTimeStamp())  &&
-                this.lat == pointDTO.getLat() &&
-                this.lon == pointDTO.getLon());
+                ( this.timeStamp == pointDTO.getTimeStamp()));
     }
 
 }
