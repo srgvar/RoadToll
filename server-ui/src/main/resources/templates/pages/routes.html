@@ -1,16 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title> Routes </title>
     </head>
     <body bgcolor="#e0e0e0" background="/res/img/bg.png">
-        <h1 th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</h1>
-        <h1> Работа с Routes </h1>
-        <p>Поработать с  <a th:href="@{/routes/1}"> Route № 1 </a></p>
-        <p>Поработать с  <a th:href="@{/routes/2}"> Route № 2 </a></p>
-        <p> <a th:href="@{/home}"> Вернуться </a></p>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Выйти"/>
+    <div th:with="requestRoute=${requestRoute}, pointsList=${pointsList}">
+
+    <h2 th:inline="text">Пользователь:[[${#httpServletRequest.remoteUser}]]</h2>
+        <form th:action="@{/home}">
+            <div><input type="submit" value=" В основное меню "/></div>
         </form>
+        <h2> Работа с Routes </h2>
+        <form th:action="@{/routes}" th:object="${requestRoute}"  method="post">
+            <p> Фильтр: </p>
+            <table>
+                <tbody>
+                <tr>
+                    <td> Номер автомобиля : </td>
+                    <td> <input type="text" th:field="*{autoId}"/> </td>
+                    <td> (пустое поле - все) </td>
+                </tr>
+                <tr>
+                    <td> Количество последних точек : </td>
+                    <td> <input type="text" th:field="*{scope}"/> </td>
+                    <td> (0 - все) </td>
+                </tr>
+                </tbody>
+            </table>
+
+        <div align="left"><input type="submit" value=" Применить фильтр "/></div>
+        </form>
+
+
+        <table>
+           <thead>
+               <tr>
+                   <th> Id </th>
+                   <th> Авто № </th>
+                   <th> Время </th>
+                   <th> Широта </th>
+                   <th> Долгота </th>
+                   <th> Скорость </th>
+                   <th> Азимут </th>
+                   <th colspan="2">
+                       <form th:action="@{/routes/add}">
+                           <input type="submit" value="Добавить точку"/>
+                       </form>
+                   </th>
+               </tr>
+           </thead>
+
+           <tbody th:class="scroll-pane" th:scrolling="auto" th:rows="20">
+
+           <tr th:each="point : ${pointsList}">
+               <td th:text="${point.id}"/>
+               <td th:text="${point.autoId}"/>
+               <td th:text="${point.timeStamp}"/>
+               <td th:text="${point.lat}"/>
+               <td th:text="${point.lon}"/>
+               <td th:text="${point.speed}"/>
+               <td th:text="${point.bearing}"/>
+
+               <td> <form th:action="@{'routes/'+${point.id}+'/edit'}">
+                   <input type="submit" value="Правка"/> </form></td>
+               <td> <form th:action="'routes/'+${point.id}+'/del'">
+                   <input type="submit" value="Удалить"/> </form></td>
+
+
+           </tr>
+           </tbody>
+        </table>
+    </div>
     </body>
 </html>

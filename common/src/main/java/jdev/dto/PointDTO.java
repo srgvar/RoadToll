@@ -6,7 +6,6 @@ package jdev.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.objects.annotations.Getter;
 
 import java.io.IOException;
 
@@ -25,27 +24,27 @@ public class PointDTO {
 
     @JsonProperty()
     @Column(name = "lat")
-    private double lat; // широта
+    private Double lat; // широта
 
     @JsonProperty()
     @Column(name = "lon")
-    private double lon; // долгота
+    private Double lon; // долгота
 
     @JsonProperty()
     @Column(name = "bearing")
-    private double bearing; // азимут
+    private Double bearing; // азимут
 
     @JsonProperty()
     @Column(name = "speed")
-    private double speed; //мгновенная скорость
+    private Double speed; //мгновенная скорость
 
     @JsonProperty()
     @Column(name = "autoid")
     private String autoId; // регистрационный номер автомобиля
 
     @JsonProperty()
-    @Column(name = "time")
-    private long time; // текущее время
+    @Column(name = "timestamp")
+    private Long timeStamp; // текущее время
 
     public PointDTO() {
 
@@ -60,31 +59,31 @@ public class PointDTO {
         this.bearing = pointDTO.bearing;
         this.speed = pointDTO.speed;
         this.autoId = pointDTO.autoId;
-        this.time = pointDTO.time;
+        this.timeStamp = pointDTO.timeStamp;
     }
 
     /**
-     * getters и setters для полей lat, lon, autoId, time
+     * getters и setters для полей lat, lon, autoId, timeStamp
      *
      */
     public Long getId(){return id;}
 
     public void setId(Long id){this.id = id;}
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(@JsonProperty("lat") double lat) {
+    public void setLat(@JsonProperty("lat") Double lat) {
         this.lat = lat;
     }
 
 
-    public double getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(@JsonProperty("lon") double lon) {
+    public void setLon(@JsonProperty("lon") Double lon) {
         this.lon = lon;
     }
 
@@ -96,29 +95,31 @@ public class PointDTO {
         this.autoId = autoId;
     }
 
-    public long getTime() {
-        return time;
+    public Long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setTime(@JsonProperty("time") long time) {
-        this.time = time;
+    public void setTimeStamp(@JsonProperty("timeStamp") Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
-    public double getBearing() {
+    public Double getBearing() {
         return bearing;
     }
 
-    public void setBearing(@JsonProperty("bearing") double bearing) {
+    public void setBearing(@JsonProperty("bearing") Double bearing) {
         this.bearing = bearing;
     }
 
-    public double getSpeed() {
+    public Double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(@JsonProperty("speed") double speed) {
+    public void setSpeed(@JsonProperty("speed") Double speed) {
         this.speed = speed;
     }
+
+    public boolean isNew(){ return this.id == null;}
 
     /**
      * Преобразование в строку JSON используя ObjectMapper
@@ -145,7 +146,7 @@ public class PointDTO {
                 ", bearing = " + bearing +
                 ", speed = " + speed +
                 ", autoId = '" + autoId + '\'' +
-                ", time = " + time + '}';
+                ", timeStamp = " + timeStamp + '}';
     }
     /**
      * Преобразование JSON-строки в объект PointDTO.
@@ -169,8 +170,8 @@ public class PointDTO {
     public boolean equals(PointDTO pointDTO){
     // Транспортное средство находится в определенное время в определенной точке
     // вне зависимости от скорости и начального азимута
-        return (this.autoId.equals(pointDTO.getAutoId()) &&
-                this.time == pointDTO.getTime() &&
+       return ((this.autoId.equals(pointDTO.getAutoId())) &&
+                ( this.timeStamp == pointDTO.getTimeStamp())  &&
                 this.lat == pointDTO.getLat() &&
                 this.lon == pointDTO.getLon());
     }

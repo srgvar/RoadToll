@@ -6,17 +6,18 @@ package jdev.server.controllers;
 
 import jdev.dto.PointDTO;
 import jdev.dto.repo.PointsDbRepository;
-import jdev.users.repo.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,6 +48,11 @@ TrackersController(@Autowired PointsDbRepository pointsDbRepository){
         HttpHeaders headers = new HttpHeaders();
         headers.add("accept",MediaType.APPLICATION_JSON_UTF8_VALUE);
 
+        /* Проверка на наличие данного местоположения авто */
+        if(pointsDbRepository.findFirstByAutoIdAndTimeStamp(point.getAutoId(), point.getTimeStamp())!=null){
+            return new ResponseEntity<>(point, headers, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
         PointDTO stored = pointsDbRepository.save(point);
         if(stored!=null) {
             if (stored.equals(point)) {
@@ -67,8 +73,8 @@ TrackersController(@Autowired PointsDbRepository pointsDbRepository){
         PointDTO[] points = new PointDTO[maxPoints];
         HttpHeaders headers = new HttpHeaders();
         headers.add("accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
-
-        List<PointDTO> track = pointsDbRepository.findAllByAutoIdOrderByTimeDesc(autoId);
+        PageRequest pageRequest = new PageRequest(0, maxPoints);
+        ArrayList<PointDTO> track = (ArrayList<PointDTO>) pointsDbRepository.findAllByAutoIdOrderByTimeStampDesc(autoId);
         if (track.size() == 0)
             return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
 

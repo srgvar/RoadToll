@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title> Удаление точки </title>
+</head>
+<h2> Удаляем точку </h2>
+<body bgcolor="#e0e0e0" background="/res/img/bg.png">
+
+<table>
+    <tbody>
+    <tr>
+        <td> Id </td>
+        <td th:text="${point.id}"></td>
+    </tr>
+    <tr>
+        <td> Время </td>
+        <td th:text="${point.timeStamp}"></td>
+    </tr>
+    <tr>
+        <td> Широта </td>
+        <td th:text="${point.lat}"></td>
+    </tr>
+    <tr>
+        <td> Долгота </td>
+        <td th:text="${point.lon}"></td>td>
+    </tr>
+    <tr>
+        <td> Скорость </td>
+        <td th:text="${point.speed}"></td>td>
+    </tr>
+    <tr>
+        <td> Азимут </td>
+        <td th:text="${point.bearing}"></td>td>
+    </tr>
+    </tbody>
+</table>
+
+<p/>
+<table>
+    <tbody>
+    <td>
+        <form th:action="'/routes/' + ${point.id} + '/del'" method="post">
+            <input type="submit" value="Удалить точку"/>
+        </form>
+    </td>
+    <td>
+        <form action="/routes">
+            <input type="submit" value=" Отмена "/>
+        </form>
+    </td>
+    </tbody>
+</table>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти"/>
+</form>
+</body>
+</html>

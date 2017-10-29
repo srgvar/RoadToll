@@ -11,7 +11,7 @@
         <!--<append>true</append>-->
         <!--<prudent>true</prudent>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/backup/console/%d{dd-MM-yyyy}/console-time-%d{HH-mm}.log-%i.zip</fileNamePattern>
+            <fileNamePattern>logs/backup/console/%d{dd-MM-yyyy}/console-timeStamp-%d{HH-mm}.log-%i.zip</fileNamePattern>
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>1KB</maxFileSize>
@@ -32,7 +32,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/backup/errors/%d{dd-MM-yyyy}/errors-time-%d{HH-mm}.log-%i.zip</fileNamePattern>
+            <fileNamePattern>logs/backup/errors/%d{dd-MM-yyyy}/errors-timeStamp-%d{HH-mm}.log-%i.zip</fileNamePattern>
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>1KB</maxFileSize>

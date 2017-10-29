@@ -72,9 +72,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -175,9 +175,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -278,9 +278,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -381,9 +381,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -443,7 +443,7 @@
 	&quot;bearing&quot;:99.0,&#xd;
 	&quot;speed&quot;:111.0,&#xd;
 	&quot;autoId&quot;:&quot;e070ao&quot;,&#xd;
-	&quot;time&quot;:1505052639418&#xd;
+	&quot;timeStamp&quot;:1505052639418&#xd;
 }&#xd;
 </stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -471,9 +471,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -522,9 +522,9 @@
         <objProp>
           <name>saveConfig</name>
           <value class="SampleSaveConfiguration">
-            <time>true</time>
+            <timeStamp>true</timeStamp>
             <latency>true</latency>
-            <timestamp>true</timestamp>
+            <timeStamp>true</timeStamp>
             <success>true</success>
             <label>true</label>
             <code>true</code>

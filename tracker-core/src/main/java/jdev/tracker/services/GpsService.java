@@ -29,7 +29,7 @@ public class GpsService {
     private static final Logger log = LoggerFactory.getLogger(GpsService.class);
 
     /* Предыдущая точка */
-    private PointDTO previousPoint = new PointDTO();
+    private PointDTO previousPoint; //= new PointDTO();
 
     /* Список координат, полученных из kml - файла */
     private List<Coordinate> coordinates;
@@ -52,17 +52,19 @@ public class GpsService {
     @Scheduled(cron = "${gpsSchedule}") //Шедулер сервиса GPS
     public void put() {
         PointDTO point = new PointDTO(); // новая точка
-        point.setTime(System.currentTimeMillis()); // текущее время
+        point.setTimeStamp(System.currentTimeMillis()); // текущее время
         point.setAutoId(autoId); // Номер авто
         if (coordinates.iterator().hasNext()){ // получаем координаты
             Coordinate coordinate =  coordinates.iterator().next();
             point.setLat(coordinate.getLatitude()); // широта
             point.setLon(coordinate.getLongitude()); // долгота
 
+            if(previousPoint!=null) {
             /* Вычисляем азимут */
-            point.setBearing(PointCalculate.calculateBearing(previousPoint, point));
+                point.setBearing(PointCalculate.calculateBearing(previousPoint, point));
             /* Вычисляем скорость */
-            point.setSpeed(PointCalculate.calculateSpeed(previousPoint, point));
+                point.setSpeed(PointCalculate.calculateSpeed(previousPoint, point));
+            }
             try {
                 gpsQueue.put(point); // помещаем точку в очередь сервиса GPS
                 log.info(" generate point: " + point.toString());

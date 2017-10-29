@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title> Точка </title>
+</head>
+
+<h2> Точка </h2>
+<body bgcolor="#e0e0e0" background="/res/img/bg.png">
+<form th:action="@{/routes/save}" th:object="${point}" method="post">
+
+<table>
+    <tbody>
+    <div th:if="${action}=='add'" >
+        <td> Номер авто:</td>
+        <td> <input type="text" th:field="*{autoId}"/> </td>
+    </div>
+    <tr>
+        <div th:if="${action}!='add'" >
+            <td> Номер авто: </td>
+            <td><span th:text="*{autoId}"/></td>
+            <p> <input type="hidden" th:field="*{autoId}"/> </p>
+        </div>
+    </tr>
+    <tr>
+        <td> Время: </td>
+        <td> <input type="text" th:field="*{timeStamp}"/> </td>
+    </tr>
+    <tr>
+        <td> Широта: </td>
+        <td> <input type="text" th:field="*{lat}"/></td>
+    </tr>
+    <tr>
+        <td> Долгота: </td>
+        <td> <input type="text" th:field="*{lon}"/> </td>
+    </tr>
+    <tr>
+        <td> Скорость: </td>
+        <td> <input type="text" th:field="*{speed}"/></td>
+    </tr>
+    <tr>
+        <td> Азимут: </td>
+        <td> <input type="text" th:field="*{bearing}"/></td>
+    </tr>
+    </tbody>
+</table>
+    <p/>
+    <p/>
+<p> <input type="hidden" th:field="*{id}"/></p>
+<p> <input type="submit" value=" Сохранить "/></p>
+</form>
+
+<form th:action="@{/routes}">
+    <input type="submit" value=" Отмена "/> </form>
+</body>
+</html>

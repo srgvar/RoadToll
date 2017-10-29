@@ -46,9 +46,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -111,9 +111,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -176,9 +176,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -241,9 +241,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -306,9 +306,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -371,9 +371,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -436,9 +436,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -501,9 +501,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -566,9 +566,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -631,9 +631,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -696,9 +696,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -761,9 +761,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -826,9 +826,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -891,9 +891,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -956,9 +956,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -1021,9 +1021,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -1086,9 +1086,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>
@@ -1160,9 +1160,9 @@
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
-                <time>true</time>
+                <timeStamp>true</timeStamp>
                 <latency>true</latency>
-                <timestamp>true</timestamp>
+                <timeStamp>true</timeStamp>
                 <success>true</success>
                 <label>true</label>
                 <code>true</code>

@@ -1,12 +1,15 @@
-<%@ page session="false"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" >
+
+	  <!--prefix="spring" uri="http://www.springframework.org/tags"-->
+	  <!--prefix="c" uri="http://java.sun.com/jsp/jstl/core"-->
+
 
 
 <body>
+<p th:text="'Error: ' + ${error}"/>
 
 	<div class="container">
 

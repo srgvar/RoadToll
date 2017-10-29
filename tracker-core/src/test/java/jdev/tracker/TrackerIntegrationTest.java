@@ -40,8 +40,6 @@ import static org.mockito.Mockito.when;
         loader = AnnotationConfigContextLoader.class)
 public class TrackerIntegrationTest {
 
-    private final String SERVER_ADDRESS = "http://localhost:9090";
-
     private final String testStrings[] =
             {"\"lat\":56.",
                     "\"lon\":84.",
@@ -74,9 +72,9 @@ public class TrackerIntegrationTest {
         p1.setLon(84.97437);
         p1.setAutoId("e070ao");
         long currentTime = System.currentTimeMillis();
-        p1.setTime(currentTime);
-        p1.setSpeed(111);
-        p1.setBearing(99);
+        p1.setTimeStamp(currentTime);
+        p1.setSpeed(111.0);
+        p1.setBearing(99.0);
         List<PointDTO> lp;
 
         // Тест работы сеттеров и преобразования в json-строку
@@ -115,6 +113,7 @@ public class TrackerIntegrationTest {
         // заглушка для RestTemplate
 
         dataSendService.setRestTemplate(restTemplateMock);
+        String SERVER_ADDRESS = "http://localhost:9090";
         final String URL_FOR_REST_TEST = SERVER_ADDRESS + "/tracker";
 
         when(restTemplateMock

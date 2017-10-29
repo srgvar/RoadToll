@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
 @Service("usersService")
 @Transactional
 public class UsersService {
+    public static final int ALL_USERS = 0;
+    public static final int CLIENTS = 1;
+    public static final int MANAGERS = 2;
     private static final Logger log = LoggerFactory.getLogger(UsersService.class);
     private UsersRepository usersRepository;
     private RolesRepository rolesRepository;
@@ -36,6 +40,19 @@ public class UsersService {
         }
     }
 
+    public void toClients(int id){
+        User user = usersRepository.findFirstById(id);
+        Set<UserRole> roles = rolesRepository.findAllByUser_id(id);
+        for(UserRole role : roles){
+            if(role.getRole().equals("MANAGER"))
+                rolesRepository.delete(role);
+        }
+    }
+
+    public void toManagers(int id){
+        User user = usersRepository.findFirstById(id);
+        rolesRepository.save(new UserRole(user,"MANAGER"));
+    }
     public void delete(Integer user_id) {
         User fUser = usersRepository.findFirstById(user_id);
         Set<UserRole> rolesFUser = rolesRepository.findAllByUser_id(user_id);
@@ -50,8 +67,40 @@ public class UsersService {
     public User getByUsername(String username) {
         return usersRepository.findOneByUsername(username);
     }
+
     @Transactional(readOnly = true)
     public Iterable<User> getAll() {
         return usersRepository.findAllByUsernameNotNullOrderByUsername();
+    }
+
+    @Transactional
+    public ArrayList <User> getUsers(int clientsType){
+        ArrayList<User> all, clients, managers;
+        clients = new ArrayList<>();
+        managers = new ArrayList<>();
+        boolean isManager;
+        all = (ArrayList<User>) usersRepository.findAllByUsernameNotNullOrderByUsername();
+            if (clientsType == 0)
+                return all;
+
+        for(User client: all)
+        {
+            isManager = false;
+            Set<UserRole> clientRoles = rolesRepository.findAllByUser_id(client.getId());
+            for( UserRole role: clientRoles){
+                if(role.getRole().equals("MANAGER") ||
+                   role.getRole().equals("ROOT")){
+                    isManager = true;
+                }
+            }
+            if (!isManager)
+                clients.add(client);
+            if (isManager)
+                managers.add(client);
+        }
+     if(clientsType == CLIENTS)
+         return clients;
+        else
+            return managers;
     }
 }

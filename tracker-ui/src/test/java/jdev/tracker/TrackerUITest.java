@@ -28,9 +28,9 @@ public class TrackerUITest {
         p1.setLon(84.97437);
         p1.setAutoId("e070ao");
         long currentTime = System.currentTimeMillis();
-        p1.setTime(currentTime);
-        p1.setSpeed(111);
-        p1.setBearing(99);
+        p1.setTimeStamp(currentTime);
+        p1.setSpeed(111.0);
+        p1.setBearing(99.0);
 
         // Тест работы сеттеров и преобразования в json-строку
         String json = p1.toJson();

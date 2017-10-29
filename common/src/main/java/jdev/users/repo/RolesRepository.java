@@ -2,7 +2,6 @@ package jdev.users.repo;
 
 import jdev.users.UserRole;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

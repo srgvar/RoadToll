@@ -37,7 +37,7 @@ public class DataSaveServiceTest {
             gpsMock.put();
         }
         // 10 точек с координатами перемещены в очередь сервиса GPS
-        assertEquals(10, gpsMock.getGpsQueue().size());
+        assertEquals(10, GpsService.getGpsQueue().size());
         assertEquals(816, gpsMock.getCoordinates().size());
 
         // Заглушка для операции записи в БД

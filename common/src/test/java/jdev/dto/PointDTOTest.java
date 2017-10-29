@@ -34,9 +34,9 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
         p1.setLon(84.97437);
         p1.setAutoId("e070ao");
         long currentTime = System.currentTimeMillis();
-        p1.setTime(currentTime);
-        p1.setSpeed(111);
-        p1.setBearing(99);
+        p1.setTimeStamp(currentTime);
+        p1.setSpeed(111.0);
+        p1.setBearing(99.0);
 
         String json = p1.toJson();
         for (String testString : testStrings) {
@@ -66,13 +66,13 @@ private final double testPoints[][]={{77.1539, -139.398, -77.1804, -139.55,  171
         // Тест calculateSpeed класса PointCalculate
         // расстояние между точками - 1000 метров, разница во времени - 100 секунд
         // скорость = 10 м/с
-        p1.setLat(0);
-        p1.setLon(0);
-        p1.setTime(0);
+        p1.setLat(0.0);
+        p1.setLon(0.0);
+        p1.setTimeStamp(0L);
         p2.setLat(0.008991);
         // p2.setLat(0.00899106829757);
-            p2.setLon(0);
-            p2.setTime(100000);
+            p2.setLon(0.0);
+            p2.setTimeStamp(100000L);
 
         assertEquals("Speed calculate error", 10, PointCalculate.calculateSpeed(p1, p2),1.0);
     }

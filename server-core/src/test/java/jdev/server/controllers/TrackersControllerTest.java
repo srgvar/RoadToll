@@ -39,9 +39,9 @@ public class TrackersControllerTest {
         point.setLon(84.97437);
         point.setAutoId("server9090");
         long currentTime = System.currentTimeMillis();
-        point.setTime(currentTime);
-        point.setSpeed(111);
-        point.setBearing(99);
+        point.setTimeStamp(currentTime);
+        point.setSpeed(111.);
+        point.setBearing(99.);
 
         when(pointsDbRepositoryMock.save(any(PointDTO.class))).thenAnswer((Answer<PointDTO>) invocation -> {
             Object args[] =  invocation.getArguments();
@@ -77,7 +77,7 @@ public class TrackersControllerTest {
         for(String jsonPoint: testJsonPoints)
             testList.add(new PointDTO(jsonPoint));
 
-        when(pointsDbRepositoryMock.findAllByAutoIdOrderByTimeDesc(autoIdTest)).thenReturn(testList);
+        when(pointsDbRepositoryMock.findAllByAutoIdOrderByTimeStampDesc(autoIdTest)).thenReturn(testList);
 
         track = (tc.getTrack("test001",maxPointsTest)).getBody();
 

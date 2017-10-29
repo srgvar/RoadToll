@@ -1,8 +1,5 @@
 package jdev.server.main;
 
-import jdev.dto.repo.PointsDbRepository;
-import jdev.users.repo.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,15 +32,7 @@ public class ServerCore {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Autowired
-    public PointsDbRepository pointsDbRepository;
-/*
-    @Autowired
-    public RolesRepository rolesRepository;
 
-    @Autowired
-    public UsersRepository usersRepository;
-*/
     public static void main(String[] args) {
         SpringApplication.run(ServerCore.class, args);
     }

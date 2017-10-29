@@ -3,37 +3,29 @@ package jdev.server.config;
 /*
  * Created by srgva on 13.08.2017.
  */
+import jdev.server.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import jdev.server.services.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
-import org.springframework.web.filter.DelegatingFilterProxy;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan({"jdev.server.services",
-                "jdev.server.controllers"})
-@EnableAutoConfiguration
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    @Qualifier("userDetailsService")
     private UserDetailsServiceImpl userDetailsService;
+
+    WebSecurityConfig(@Autowired UserDetailsServiceImpl userDetailsService){
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -53,8 +45,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/res/**").permitAll()  // ресурсы css, img, ...
                 .antMatchers("/home","/error").authenticated() // домашняя страница
                 .antMatchers("/payments/**", "/routes/**").hasRole("CLIENT")
-                .antMatchers("/admin").hasRole("MANAGER")
-                .antMatchers("/admin/registerClient/**").hasRole("MANAGER")
+                .antMatchers("/admin").hasAnyRole("MANAGER","ROOT")
+                .antMatchers("/admin/registerClient/**").hasAnyRole("MANAGER","ROOT")
                 .antMatchers("/admin/registerManager/**").hasRole("ROOT")
                 .anyRequest().authenticated()
                 .and()

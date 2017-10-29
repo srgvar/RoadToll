@@ -6,6 +6,7 @@ package jdev.server.services;
 import jdev.users.User;
 import jdev.users.UserRole;
 import jdev.users.repo.RolesRepository;
+import jdev.users.repo.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import jdev.users.repo.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@Service("userDetailsService")
+@Service(value = "userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private RolesRepository rolesRepository;
 
-    public UserDetailsServiceImpl(@Autowired UsersRepository usersRepository, @Autowired RolesRepository rolesRepository){
+    private UserDetailsServiceImpl(@Autowired UsersRepository usersRepository, @Autowired RolesRepository rolesRepository){
         this.usersRepository = usersRepository;
         this.rolesRepository = rolesRepository;
     }
@@ -42,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = usersRepository.findOneByUsername(username);
             if (user == null) throw new UsernameNotFoundException("User with name" + username + " not found");
         if(user.isEnabled()) {
-            Set<UserRole> roles = rolesRepository.findAllByUser_id(user.getId());
+            Set <UserRole> roles = rolesRepository.findAllByUser_id(user.getId());
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), buildUserAuthority(roles));
         }else
             return null;

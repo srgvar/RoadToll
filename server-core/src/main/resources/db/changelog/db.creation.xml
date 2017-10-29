@@ -9,15 +9,15 @@
             (
             id BIGINT AUTO_INCREMENT NOT NULL,
             autoid VARCHAR(10),
-            time BIGINT NOT NULL,
+            timestamp BIGINT NOT NULL,
             lat DOUBLE,
             lon DOUBLE,
             bearing DOUBLE,
             speed DOUBLE
             );
          CREATE UNIQUE INDEX points_id_uindex ON points (id);
-         CREATE INDEX points_time_index ON points (time);
-         CREATE INDEX points_autoId_index ON points (autoId);
+         CREATE INDEX points_timestamp_index ON points (timestamp);
+         CREATE INDEX points_autoid_index ON points (autoid);
         </sql>
 
     </changeSet>

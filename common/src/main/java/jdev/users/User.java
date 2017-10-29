@@ -5,8 +5,6 @@ package jdev.users;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Set;
-
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity

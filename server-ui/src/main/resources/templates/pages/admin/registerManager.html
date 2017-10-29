@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title> Список клиентов </title>
+</head>
+<body bgcolor="#e0e0e0" background="/res/img/bg.png">
+<h2> Регистрация менеджеров: </h2>
+
+<table>
+    <tr>
+        <td>
+            <label> Показать: </label>
+        </td>
+        <td>
+            <form th:action="@{/admin/registerManager/all}">
+                <input type="submit" value=" Всех "/>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/registerManager/mng}">
+                <input type="submit" value=" Менеджеров "/>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/registerManager/cln}">
+                <input type="submit" value=" Клиентов "/>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<div th:with="path=${path}, users=${users}, usersType=${usersType}">
+    <table title="Клиенты">
+        <thead>
+        <tr>
+            <th> ID </th>
+            <th> Login </th>
+            <th> Полное имя </th>
+            <th> Доступ </th>
+
+         </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.id}"/>
+            <td th:text="${user.username}"/>
+            <td th:text="${user.fullname}"/>
+            <td th:text="${user.enabled}"/>
+            <td>
+                <div th:if="${usersType}==1">
+                    <form th:action="'registerManager/'+${user.id}+'/2mng'" method="post">
+                    <input type="submit" value="В менеджеры"/> </form>
+                </div>
+                <div th:if="${usersType}==2" >
+                    <form th:action="'registerManager/'+${user.id}+'/2cln'" method="post">
+                        <input type="submit" value="В клиенты"/> </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p/>
+<table>
+    <tbody>
+
+    <td>
+        <form action="/admin">
+            <input type="submit" value=" к Администрированию "/>
+        </form>
+    </td>
+    <td>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Выйти"/>
+        </form>
+    </td>
+    </tbody>
+</table>
+
+</body>
+</html>

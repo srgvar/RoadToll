@@ -1,7 +1,5 @@
 package jdev.tracker;
 
-import jdev.dto.repo.PointsDbRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +31,8 @@ public class TrackerCoreContext {
     }
 
 
-    @Autowired
-    public PointsDbRepository pointsDbRepository;
+    //@Autowired
+    //public PointsDbRepository pointsDbRepository;
 
     // Шедулер для запуска сервисов
     @Bean
