@@ -85,7 +85,6 @@ class UsersController {
     public ModelAndView updateClient(@PathVariable("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView();
         User user = usersService.getById(id);
-        System.out.println("Edit user with ID = " + user.getId());
             modelAndView.addObject("user", user);
             modelAndView.setViewName("pages/admin/client");
         return modelAndView;

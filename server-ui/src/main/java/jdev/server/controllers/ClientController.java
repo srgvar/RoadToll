@@ -47,8 +47,6 @@ class ClientController {
       modelAndView.setViewName("pages/home");
         final String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        System.out.println(userName);
-
       return modelAndView;
     }
 
@@ -89,7 +87,6 @@ class ClientController {
 
     @RequestMapping(value = "/routes/add", method = RequestMethod.GET)
     public ModelAndView addPoint(){
-        System.out.println("routes add");
         ModelAndView modelAndView = new ModelAndView();
         PointDTO point = new PointDTO();
         point.setTimeStamp(System.currentTimeMillis());
@@ -114,7 +111,6 @@ class ClientController {
                           BindingResult bindingResult,
                           Model model,
                           final RedirectAttributes redirectAttributes){
-        //System.out.println("autoId = " + requestRoute.getAutoId() + " scope = " + requestRoute.getScope());
         this.requestRoute = requestRoute;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("pages/routes");
@@ -142,7 +138,6 @@ class ClientController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("pages/routes");
         routesService.delete(id);
-        System.out.println("autoId = " + requestRoute.getAutoId() + " Scope = " + requestRoute.getScope());
         pointsList =  routesService.getScopeByAutoId(requestRoute.getAutoId(), requestRoute.getScope());
         modelAndView.addObject("requestRoute", requestRoute);
         modelAndView.addObject("pointsList", pointsList);
