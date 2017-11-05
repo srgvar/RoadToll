@@ -110,3 +110,8 @@ project(':tracker-ui') {
         compile project(':common')
     }
 }
+
+
+project(':threads'){
+
+}
