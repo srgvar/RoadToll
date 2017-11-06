@@ -23,8 +23,10 @@ import java.util.Arrays;
 //@Transactional
 public class DataSendService {
 
-    /** Логгер сервиса передачи */
-    private static final Logger log = LoggerFactory.getLogger(DataSendService.class);
+    /**
+     * Логгер сервиса передачи
+     */
+    private static final ThreadLocal<Logger> LOG = ThreadLocal.withInitial(() -> LoggerFactory.getLogger(DataSendService.class));
 
     @Value("${serverURL}")
     private  String serverURL;
@@ -64,12 +66,17 @@ public class DataSendService {
 
                 if (response.getStatusCode() == HttpStatus.CREATED) {
                     pointsDbRepository.delete(point);
-                    log.info(" send to server success: " + response.getBody());
+                    LOG.get().info(" send to server success: " + response.getBody());
                 } else {
-                    log.error(" send to server FAILURE, error code: " + response);
+                    if(response.getStatusCode() == HttpStatus.CONFLICT){
+                        LOG.get().error(" point on server now exists, local delete : " + response);
+                        pointsDbRepository.delete(point);
+                    }else {
+                        LOG.get().error(" send to server FAILURE, error code: " + response);
+                    }
                 }
             }catch(Exception e){
-                log.error(" send to server ERROR: " + e.toString());
+                LOG.get().error(" send to server ERROR: " + e.toString());
             }
         }
     }

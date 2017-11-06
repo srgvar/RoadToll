@@ -25,7 +25,7 @@ import java.util.Set;
 
 @Service(value = "userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    private static final ThreadLocal<Logger> LOG = ThreadLocal.withInitial(() -> LoggerFactory.getLogger(UserDetailsServiceImpl.class));
 
     private UsersRepository usersRepository;
 
@@ -40,7 +40,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = usersRepository.findOneByUsername(username);
-            if (user == null) throw new UsernameNotFoundException("User with name" + username + " not found");
+            if (user == null){
+                LOG.get().error(username + " not found!!!");
+                throw new UsernameNotFoundException("User with name" + username + " not found");
+            }
         if(user.isEnabled()) {
             Set <UserRole> roles = rolesRepository.findAllByUser_id(user.getId());
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), buildUserAuthority(roles));

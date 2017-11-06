@@ -25,8 +25,10 @@ public class GpsService {
     @Value("${autoId}")
     private String autoId; // номер авто - в файле application.properties
 
-    /** Логгер сервиса GPS */
-    private static final Logger log = LoggerFactory.getLogger(GpsService.class);
+    /**
+     * Логгер сервиса GPS
+     */
+    private static final ThreadLocal<Logger> LOG = ThreadLocal.withInitial(() -> LoggerFactory.getLogger(GpsService.class));
 
     /* Предыдущая точка */
     private PointDTO previousPoint; //= new PointDTO();
@@ -67,9 +69,9 @@ public class GpsService {
             }
             try {
                 gpsQueue.put(point); // помещаем точку в очередь сервиса GPS
-                log.info(" generate point: " + point.toString());
+                LOG.get().info(" generate point: " + point.toString());
             } catch (InterruptedException e) {
-                log.error(" exception: " + e.getMessage());
+                LOG.get().error(" exception: " + e.getMessage());
                 e.printStackTrace();
             }
             // удаляем текущую точку из списка

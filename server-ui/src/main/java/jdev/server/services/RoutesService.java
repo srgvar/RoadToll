@@ -2,6 +2,8 @@ package jdev.server.services;
 
 import jdev.dto.PointDTO;
 import jdev.dto.repo.PointsDbRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 public class RoutesService {
 
     private PointsDbRepository pointsDbRepository;
+    private static final ThreadLocal<Logger> LOG = ThreadLocal.withInitial(() -> LoggerFactory.getLogger(RoutesService.class));
+
 
     public RoutesService(@Autowired PointsDbRepository pointsDbRepository){
        this.pointsDbRepository = pointsDbRepository;

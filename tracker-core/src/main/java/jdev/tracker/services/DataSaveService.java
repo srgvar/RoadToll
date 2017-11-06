@@ -23,7 +23,7 @@ import static jdev.tracker.services.GpsService.*;
 public class DataSaveService {
 
     // Логгер сервиса хранения
-    private static final Logger log = LoggerFactory.getLogger(DataSaveService.class);
+    private static final ThreadLocal<Logger> LOG = ThreadLocal.withInitial(() -> LoggerFactory.getLogger(DataSaveService.class));
 
     // Интерфейс репозитория
     private PointsDbRepository pointsDbRepository;
@@ -46,13 +46,13 @@ public class DataSaveService {
                     savedPoint = pointsDbRepository.save(point);
                     //
                     if (point.equals(savedPoint)) {
-                        log.info(" save to database point: " + gpsQueue.take());
+                        LOG.get().info(" save to database point: " + gpsQueue.take());
                     } else {
-                        log.error(" ERROR saving point: " + point);
+                        LOG.get().error(" ERROR saving point: " + point);
                     }
                 }
                 } catch(InterruptedException e){
-                    log.error(e.getMessage());
+                    LOG.get().error(e.getMessage());
                     e.printStackTrace();
                 } //try
 

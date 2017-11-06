@@ -5,6 +5,7 @@ package jdev.server;
  */
 
 import jdev.dto.PointDTO;
+import jdev.dto.RequestRoute;
 import jdev.dto.repo.PointsDbRepository;
 import jdev.server.controllers.TrackersController;
 import org.junit.Test;
@@ -72,7 +73,7 @@ public class ServerCoreTest {
             assertTrue(point.equals(savedPoint));
         }
 
-        final ResponseEntity<PointDTO[]> reTrack = tc.getTrack("test002", trackLength);
+        final ResponseEntity<PointDTO[]> reTrack = tc.getTrack(new RequestRoute("test002", trackLength));
         PointDTO track[] = reTrack.getBody();
 
         /* тестовый массив просматриваем с "хвоста" - с наиболее ранним временем (time),

@@ -1,6 +1,7 @@
 package jdev.server.controllers;
 
 import jdev.dto.PointDTO;
+import jdev.dto.RequestRoute;
 import jdev.dto.repo.PointsDbRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -79,7 +80,7 @@ public class TrackersControllerTest {
 
         when(pointsDbRepositoryMock.findAllByAutoIdOrderByTimeStampDesc(autoIdTest)).thenReturn(testList);
 
-        track = (tc.getTrack("test001",maxPointsTest)).getBody();
+        track = (tc.getTrack(new RequestRoute("test001", maxPointsTest))).getBody();
 
         for(int i = 0; i < maxPointsTest; i++) {
             System.out.println(testList.get(i));

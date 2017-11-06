@@ -21,7 +21,7 @@ public class UsersService {
     public static final int ALL_USERS = 0;
     public static final int CLIENTS = 1;
     public static final int MANAGERS = 2;
-    private static final Logger log = LoggerFactory.getLogger(UsersService.class);
+    private static final ThreadLocal<Logger> LOG = ThreadLocal.withInitial(() -> LoggerFactory.getLogger(UsersService.class));
     private UsersRepository usersRepository;
     private RolesRepository rolesRepository;
 

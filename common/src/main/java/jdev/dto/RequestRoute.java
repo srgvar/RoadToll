@@ -1,9 +1,18 @@
-package jdev.server.controllers;
+package jdev.dto;
 
+
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 public class RequestRoute {
     private String autoId;
     private int scope;
+
+    public RequestRoute(){}
+
+    public RequestRoute(String autoId, Integer scope){
+        this.autoId = autoId;
+        this.scope = scope;
+    }
 
 
     public String getAutoId() {

@@ -1,7 +1,7 @@
 package jdev.server.controllers;
 
-import javafx.collections.transformation.SortedList;
 import jdev.dto.PointDTO;
+import jdev.dto.RequestRoute;
 import jdev.server.services.RoutesService;
 import jdev.server.services.UsersService;
 import jdev.users.User;
@@ -32,7 +32,7 @@ class ClientController {
 
 
     ClientController(@Autowired UsersService usersService, @Autowired RoutesService routesService){
-        this.usersRepository = usersRepository;
+        this.usersService = usersService;
         this.routesService = routesService;
     }
 

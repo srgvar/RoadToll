@@ -36,8 +36,8 @@ public class TrackerCoreContext {
     @Bean
     public TaskScheduler poolScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setThreadNamePrefix("poolScheduler");
-        scheduler.setPoolSize(20);
+        scheduler.setThreadNamePrefix("trackerScheduler");
+        scheduler.setPoolSize(3);
         return scheduler;
     }
 

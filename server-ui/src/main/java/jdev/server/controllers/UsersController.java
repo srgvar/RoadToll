@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @Controller /* объявляем, что данный класс является контроллером */
 @RequestMapping("/admin")
 class UsersController {
-    private final static Logger log = LoggerFactory.getLogger(UsersController.class);
+    private final static Logger LOG = LoggerFactory.getLogger(UsersController.class);
     private UsersService usersService;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     ArrayList<User> users = new ArrayList<>();
