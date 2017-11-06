@@ -57,7 +57,7 @@ public class ThreadExampleMain {
         Thread.sleep(10);
         thread1.printInfo();
         thread1.setMustBeWait(false);
-        Thread.sleep(60);
+        Thread.sleep(10);
         thread1.printInfo();
         thread1.setMustBeRun(false);
         Thread.sleep(10);
@@ -66,10 +66,11 @@ public class ThreadExampleMain {
 
     private static void priorityExample() throws InterruptedException {
         System.out.println("********************************");
+        System.out.println("Thread PRIORITY Example:");
+
         int MAX_PRIORITIES=3, MAX_THREADS=2;
 
         // запускаем всего 6 потоков по 2 с приоритетами мин., норм, и макс.
-        System.out.println("Thread PRIORITY Example:");
         ThreadExample[][] threads = new ThreadExample[MAX_PRIORITIES][MAX_THREADS];
         for (int i = 0; i < MAX_PRIORITIES; i++){
             for(int j = 0; j<MAX_THREADS ;j++) {
@@ -79,10 +80,10 @@ public class ThreadExampleMain {
                     threads[i][j].setPriority(Thread.MIN_PRIORITY);
                 } else {
                     if (i == 2) {
-                        threads[i][j] = new ThreadExample("Thread_MAX_" + new Integer(j).toString());
+                        threads[i][j] = new ThreadExample("Thread_MAX_" + Integer.toString(j));
                         threads[i][j].setPriority(Thread.MAX_PRIORITY);
                     } else {
-                        threads[i][j] = new ThreadExample("Thread_NORM_" + new Integer(j).toString());
+                        threads[i][j] = new ThreadExample("Thread_NORM_" + Integer.toString(j));
                     }
 
                 }
@@ -107,25 +108,25 @@ public class ThreadExampleMain {
         for (int i = 0; i < MAX_PRIORITIES; i++)
             for(int j = 0;j<MAX_THREADS;j++)
                 threads[i][j].setNeedSay(true);
-        Thread.sleep(7);
+        //Thread.sleep(2);
 
         for (int i = 0; i < MAX_PRIORITIES; i++)
             for(int j = 0;j<MAX_THREADS;j++)
                 threads[i][j].printInfo();
 
         ThreadExample.setMess("NEW MESSAGE");
-        Thread.sleep(7);
+        Thread.sleep(2);
 
 
         for (int i = 0; i < MAX_PRIORITIES; i++)
             for(int j = 0;j<MAX_THREADS;j++)
                 threads[i][j].setMustBeRun(false);
 
-        for (int i = 0; i < MAX_PRIORITIES; i++)
+        /*for (int i = 0; i < MAX_PRIORITIES; i++)
             for(int j = 0;j<MAX_THREADS;j++)
-                threads[i][j].printInfo();
+                threads[i][j].printInfo();*/
 
-        Thread.sleep(7);
+        //Thread.sleep(7);
 
         for (int i = 0; i < MAX_PRIORITIES; i++)
             for(int j = 0;j<MAX_THREADS;j++)
@@ -133,7 +134,7 @@ public class ThreadExampleMain {
 
     } // priorityExample
 
-    public static void joinExample() throws InterruptedException {
+    private static void joinExample() throws InterruptedException {
         System.out.println("********************************");
         System.out.println("Thread JOIN Example:");
 
@@ -157,7 +158,7 @@ public class ThreadExampleMain {
             threadExample.printInfo();
     }
 
-    public static void yieldExample(boolean useYield) throws InterruptedException {
+    private static void yieldExample(boolean useYield) throws InterruptedException {
         long start, finish;
         start = System.currentTimeMillis();
         System.out.println("********************************");
@@ -177,7 +178,7 @@ public class ThreadExampleMain {
         setContinue.setPriority(1);
 
         for(int i=0; i<threadsCount; i++) {
-            threadExample[i] = new ThreadExample("Thread Example " + new Integer(i).toString());
+            threadExample[i] = new ThreadExample("Thread Example " + Integer.toString(i));
 
             /* Следующая строчка программы очень влияет на время выполнения на моём компьютере */
             threadExample[i].setNeedYield(useYield);
@@ -279,7 +280,7 @@ public class ThreadExampleMain {
         static final A a = new A();
     }
 
-    public static void testDeadLock() {
+    private static void testDeadLock() {
         System.out.println("********************************");
         System.out.println("Deadlock Example");
         // Если закомментировать следующую строчку
@@ -296,12 +297,12 @@ public class ThreadExampleMain {
         // - public static final int SUM = IntStream.range(0, 100).parallel().reduce((n, m) -> n + m).getAsInt();
 
         //РАБОТАЮЩИЙ ВАРИАНТ 1 (убрали parallel())
-        public static final int SUM = IntStream.range(0, 100).reduce((n, m) -> n + m).getAsInt();
+        static final int SUM = IntStream.range(0, 100).reduce((n, m) -> n + m).getAsInt();
 
         //РАБОТАЮЩИЙ ВАРИАНТ 2 (лямбда код заменили на "Integer::sum")
         // public static final int SUM = IntStream.range(0, 100).parallel().reduce(Integer::sum).getAsInt();
 
-        public void printResult() {
+        void printResult() {
             System.out.println(SUM);
         }
     }
@@ -321,45 +322,45 @@ public class ThreadExampleMain {
         static class Resource {
             private User user;
 
-            public Resource(User user) {
+            Resource(User user) {
                 this.user = user;
 
             }
-            public User getUser() {
+            User getUser() {
                 return this.user;
             }
 
-            public synchronized void setUser(User user) {
+            synchronized void setUser(User user) {
                 this.user = user;
             }
 
-            public synchronized void use() {
+            synchronized void use() {
                 System.out.println(user.name + "used resource");
             }
 
 
         } // class Resource
 
-        public static class User {
+        static class User {
             String name;
             boolean usedResource;
 
-            public User(String name){
+            User(String name){
                 this.name = name;
                 this.usedResource = false;
             }
-            public String getName(){
+            String getName(){
             return name;
         }
-            public boolean isUsedResource(){
+            boolean isUsedResource(){
             return usedResource;
         }
 
-            public void setUsedResource(boolean usedResource) {
+            void setUsedResource(boolean usedResource) {
                 this.usedResource = usedResource;
             }
 
-            public void jointUse(Resource resource, User user) {
+            void jointUse(Resource resource, User user) {
                 while (!usedResource) {
                     if (resource.getUser() != this) {
                         try {
@@ -386,7 +387,7 @@ public class ThreadExampleMain {
         }
     } // class LiveLock
 
-    public static void liveLockExample() throws InterruptedException {
+    private static void liveLockExample() throws InterruptedException {
         System.out.println("********************************");
         System.out.println("Пример livelock (liveLockExample)");
 
@@ -395,19 +396,9 @@ public class ThreadExampleMain {
 
         final LiveLock.Resource resource = new LiveLock.Resource(user1);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user1.jointUse(resource, user2);
-            }
-        }).start();
+        new Thread(() -> user1.jointUse(resource, user2)).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user2.jointUse(resource, user1);
-            }
-        }).start();
+        new Thread(() -> user2.jointUse(resource, user1)).start();
 
         Thread.sleep(10);
 
@@ -418,9 +409,9 @@ public class ThreadExampleMain {
     }
 
     public static class StarvationDemo {
-        private static Object sharedObj = new Object();
+        private static final Object sharedObj = new Object();
 
-        public void demoStart () {
+        void demoStart() {
             JFrame frame = createFrame();
             frame.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -432,14 +423,12 @@ public class ThreadExampleMain {
 
             JButton btnExit = new JButton("Exit");
 
-            btnExit.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) { // если нажата кнопка
+            btnExit.addActionListener(e -> { // если нажата кнопка
 
-                    /** Выходим   */
-                    frame.removeAll();
-                    frame.dispose(); // чистим память
-                    System.exit(0);
-                }
+                /** Выходим   */
+                frame.removeAll();
+                frame.dispose(); // чистим память
+                System.exit(0);
             }); // ----------- Кнопка < Exit >
 
             frame.add(btnExit);
@@ -513,7 +502,7 @@ public class ThreadExampleMain {
             return needYield;
         }
 
-        public void setNeedYield(boolean needYield) {
+        void setNeedYield(boolean needYield) {
             this.needYield = needYield;
         }
 
@@ -529,7 +518,7 @@ public class ThreadExampleMain {
             super(name);
         }
 
-        public static void setMess(String mess){
+        static void setMess(String mess){
             System.out.println(Thread.currentThread().getName() + " set message = " + mess);
             message = mess;
         }
@@ -544,16 +533,16 @@ public class ThreadExampleMain {
                     " say: " + message);
         }
 
-        public void setMustBeRun(boolean mustBeRun) {
+        void setMustBeRun(boolean mustBeRun) {
             System.out.println(this.getName() + ".mustBeRun = " + mustBeRun);
             this.mustBeRun = mustBeRun;
         }
-        public void setMustBeWait(boolean mustBeWait) {
+        void setMustBeWait(boolean mustBeWait) {
             System.out.println(this.getName() + ".mustBeWait = " + mustBeWait);
 
             this.mustBeWait = mustBeWait;
         }
-        public void setNeedSay(boolean needSay){
+        void setNeedSay(boolean needSay){
             System.out.println(this.getName() + ".needSay = " + needSay);
 
             this.needSay = needSay;
@@ -572,12 +561,12 @@ public class ThreadExampleMain {
             while(mustBeRun){
                 if(mustBeWait) {
                     try {
-                        Thread.currentThread().sleep(3);
+                        Thread.sleep(3);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }else{
-                    if(needYield != true) {
+                    if(!needYield) {
                         if (needSay) {
                             say();
                         }
@@ -585,10 +574,10 @@ public class ThreadExampleMain {
                         Thread.yield();
                     }
                 }
-            };
+            }
         }
 
-        public void printInfo(){
+        void printInfo(){
             System.out.println(this.getName() +
                     " priority = " + this.getPriority()+
                     " state = " + this.getState());
