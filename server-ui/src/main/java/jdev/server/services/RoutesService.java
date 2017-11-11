@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class RoutesService {
@@ -22,8 +23,10 @@ public class RoutesService {
 
     public ArrayList<PointDTO> getScopeByAutoId(String autoId, int scope ) {
         ArrayList<PointDTO> all; ArrayList retList;
+        all = new ArrayList<>();
         if ("".equals(autoId) || autoId == null) all = (ArrayList<PointDTO>) pointsDbRepository.findAll();
-        else all = (ArrayList<PointDTO>) pointsDbRepository.findAllByAutoIdOrderByTimeStampDesc(autoId);
+        else
+            all = (ArrayList<PointDTO>) pointsDbRepository.findAllByAutoIdOrderByTimeStampDesc(autoId);
 
         if (all.size() > 2) {
             all.sort((o1, o2) -> Long.compare(o2.getTimeStamp() - o1.getTimeStamp(), 0L));

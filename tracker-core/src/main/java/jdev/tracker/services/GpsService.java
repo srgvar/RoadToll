@@ -6,6 +6,7 @@ import jdev.dto.PointDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -50,12 +51,15 @@ public class GpsService {
         coordinates = readCoordinates(kmlFileName);
     }
 
+    @Async
     /** формирование точки и помещение её в очередь сервиса GPS*/
     @Scheduled(cron = "${gpsSchedule}") //Шедулер сервиса GPS
     public void put() {
+
         PointDTO point = new PointDTO(); // новая точка
         point.setTimeStamp(System.currentTimeMillis()); // текущее время
         point.setAutoId(autoId); // Номер авто
+
         if (coordinates.iterator().hasNext()){ // получаем координаты
             Coordinate coordinate =  coordinates.iterator().next();
             point.setLat(coordinate.getLatitude()); // широта

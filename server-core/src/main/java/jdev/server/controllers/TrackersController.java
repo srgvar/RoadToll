@@ -15,11 +15,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -34,11 +37,8 @@ public class TrackersController {
 TrackersController(@Autowired PointsDbRepository pointsDbRepository){
         this.pointsDbRepository = pointsDbRepository;
     }
-
     @RequestMapping(value = "/tracker", method = RequestMethod.POST,
          produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-
-
     public ResponseEntity<PointDTO> savePoint(@RequestBody PointDTO point) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("accept",MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -69,22 +69,30 @@ TrackersController(@Autowired PointsDbRepository pointsDbRepository){
         return new ResponseEntity<>(null, headers, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-
+    //@Async
     @RequestMapping(value = "/route", method = RequestMethod.GET)
     public ResponseEntity<PointDTO[]> getTrack(@RequestBody RequestRoute requestRoute){
 
-    String autoId=requestRoute.getAutoId();
+    String autoId = requestRoute.getAutoId();
     Integer maxPoints=requestRoute.getScope();
+
         PointDTO[] points = new PointDTO[maxPoints];
         HttpHeaders headers = new HttpHeaders();
+
         headers.add("accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
-        PageRequest pageRequest = new PageRequest(0, maxPoints);
-        ArrayList<PointDTO> track =  (ArrayList<PointDTO>) pointsDbRepository.findAllByAutoIdOrderByTimeStampDesc(autoId);
-        if (track.size() == 0)
+        //PageRequest pageRequest = new PageRequest(0, maxPoints);
+        ArrayList<PointDTO> track = new ArrayList<>();
+            track = (ArrayList<PointDTO>) pointsDbRepository.findAllByAutoIdOrderByTimeStampDesc(autoId);
+        if ((track == null) || (track.size() == 0))
             return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
 
         if(track.size() < maxPoints){
-            points = (PointDTO[]) track.toArray();
+            int i= 0;
+            if(i<track.size()){
+                do {
+                    points[i] = track.get(i);
+                }while(i < track.size());
+            }
         }else{
             int i = 0;
             if (i < maxPoints) {

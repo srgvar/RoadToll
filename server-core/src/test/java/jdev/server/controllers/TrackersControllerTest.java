@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -78,9 +79,9 @@ public class TrackersControllerTest {
         for(String jsonPoint: testJsonPoints)
             testList.add(new PointDTO(jsonPoint));
 
-        when(pointsDbRepositoryMock.findAllByAutoIdOrderByTimeStampDesc(autoIdTest)).thenReturn(testList);
-
-        track = (tc.getTrack(new RequestRoute("test001", maxPointsTest))).getBody();
+        when(pointsDbRepositoryMock.findAllByAutoIdOrderByTimeStampDesc(autoIdTest)).thenReturn((List<PointDTO>) testList);
+             //pointsDbRepositoryMock.findAllByAutoIdOrderByTimeStampDesc()
+        track = (tc.getTrack(new RequestRoute(autoIdTest, maxPointsTest))).getBody();
 
         for(int i = 0; i < maxPointsTest; i++) {
             System.out.println(testList.get(i));

@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html   xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title> Клиент </title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,11 +9,16 @@
 
 <h1> Клиент </h1>
 <form th:action="@{/admin/registerClient}" th:object="${user}" method="post">
+	<div th:if="${msg}!=null" >
+		<td><span th:text="${msg}"/></td>
+	</div>
 <table>
 	<tr>
 		<div th:if="${action}=='add'" >
 			<td>Login:</td>
 			<td><input type="text" th:field="*{username}"/></td>
+			<td><span th:text="${errName}"/></td>
+			<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>
 		</div>
 	</tr>
 	<tr>

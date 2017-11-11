@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 /**
  * Created by srgva on 23.07.2017.
  */
+//@Async
 @Service
 //@EnableScheduling
 //@Transactional
@@ -46,8 +48,10 @@ public class DataSendService {
         this.pointsDbRepository = pointsDbRepository;
     }*/
 
+    @Async
     @Scheduled (cron = "${sendSchedule}") // параметры из файла-конфигурации (roadtoll.properties)
     public void sendToServer()  {
+
         String url = serverURL + "/tracker";
 
         // Передача данных на сервер
@@ -77,6 +81,7 @@ public class DataSendService {
                 }
             }catch(Exception e){
                 LOG.get().error(" send to server ERROR: " + e.toString());
+                break;
             }
         }
     }

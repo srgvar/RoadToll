@@ -17,6 +17,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = AUTO)
     @Column(name = "user_id")
     private Integer id;
+
     @Column(name = "username", nullable = false, length = 20)
     private String username;
 

@@ -24,11 +24,15 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/error").setViewName("error");
     }
     /** ресурсы css, img, ... */
+
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry rcRegistry) {
         ResourceHandlerRegistration resourceRegistration = rcRegistry
         .addResourceHandler("/res/**")
                 .addResourceLocations("classpath:/templates/res/");
+
+        rcRegistry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
 

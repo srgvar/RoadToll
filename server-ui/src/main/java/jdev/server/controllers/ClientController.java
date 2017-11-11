@@ -30,6 +30,8 @@ class ClientController {
     private ArrayList<PointDTO> pointsList;
     private RequestRoute requestRoute;// = new RequestRoute();
 
+    private PointDTO point;
+
 
     ClientController(@Autowired UsersService usersService, @Autowired RoutesService routesService){
         this.usersService = usersService;
@@ -88,10 +90,10 @@ class ClientController {
     @RequestMapping(value = "/routes/add", method = RequestMethod.GET)
     public ModelAndView addPoint(){
         ModelAndView modelAndView = new ModelAndView();
-        PointDTO point = new PointDTO();
+        this.point = new PointDTO();
         point.setTimeStamp(System.currentTimeMillis());
         point.setAutoId(requestRoute.getAutoId());
-        modelAndView.addObject("point", point);
+        modelAndView.addObject("point", this.point);
         modelAndView.addObject("action","add");
         modelAndView.setViewName("pages/point");
         return modelAndView;
@@ -134,14 +136,14 @@ class ClientController {
 
 
     @RequestMapping(value = "/routes/{id}/del", method = RequestMethod.POST)
-    public ModelAndView delPoint(@PathVariable("id") long id){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("pages/routes");
+    public String delPoint(@PathVariable("id") long id){
+        //ModelAndView modelAndView = new ModelAndView();
+        //modelAndView.setViewName("pages/routes");
         routesService.delete(id);
         pointsList =  routesService.getScopeByAutoId(requestRoute.getAutoId(), requestRoute.getScope());
-        modelAndView.addObject("requestRoute", requestRoute);
-        modelAndView.addObject("pointsList", pointsList);
-        return modelAndView;
+        //modelAndView.addObject("requestRoute", requestRoute);
+        //modelAndView.addObject("pointsList", pointsList);
+        return "redirect:/routes";
     }
 
 
